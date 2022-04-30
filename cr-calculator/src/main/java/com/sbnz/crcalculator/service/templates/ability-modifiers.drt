@@ -3,7 +3,6 @@ minScore
 maxScore
 modifier
 
-import com.sbnz.crcalculator.facts.Monster;
 import com.sbnz.crcalculator.facts.Ability;
 
 template "ability-modifiers"
