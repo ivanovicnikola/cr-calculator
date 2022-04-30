@@ -11,7 +11,6 @@ public class Monster {
 	private double expectedChallengeRating;
 	private int proficiencyBonus;
 	private int armorClass;
-	private int averageHitPoints;
 	private int numberOfHitDice;
 	private Die hitDie;
 	
@@ -19,7 +18,7 @@ public class Monster {
 	
 	public Monster(String name, Ability strength, Ability dexterity, Ability constitution, Ability intelligence,
 			Ability wisdom, Ability charisma, double expectedChallengeRating, int proficiencyBonus, int armorClass,
-			int averageHitPoints, int numberOfHitDice, Die hitDie) {
+			int numberOfHitDice, Die hitDie) {
 		super();
 		this.name = name;
 		this.strength = strength;
@@ -31,7 +30,6 @@ public class Monster {
 		this.expectedChallengeRating = expectedChallengeRating;
 		this.proficiencyBonus = proficiencyBonus;
 		this.armorClass = armorClass;
-		this.averageHitPoints = averageHitPoints;
 		this.numberOfHitDice = numberOfHitDice;
 		this.hitDie = hitDie;
 	}
@@ -117,11 +115,7 @@ public class Monster {
 	}
 
 	public int getAverageHitPoints() {
-		return averageHitPoints;
-	}
-
-	public void setAverageHitPoints(int averageHitPoints) {
-		this.averageHitPoints = averageHitPoints;
+		return (int) (numberOfHitDice*(hitDie.getAverageRoll() + constitution.getAbilityModifier()));
 	}
 
 	public int getNumberOfHitDice() {

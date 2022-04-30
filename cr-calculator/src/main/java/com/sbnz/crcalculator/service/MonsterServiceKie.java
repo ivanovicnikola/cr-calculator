@@ -21,11 +21,13 @@ import com.sbnz.crcalculator.facts.Monster;
 @Service
 public class MonsterServiceKie implements MonsterService {
 	
+	//@Autowired
+	//private KieContainer kieContainer;
+	
 	@Override
 	public Monster getClassifiedMonster(Monster monster) {
 		String drl = getAbilityModifierRules();
 		KieSession ksession = createKieSessionFromDRL(drl);
-		ksession.insert(monster);
 		ksession.insert(monster.getStrength());
 		ksession.insert(monster.getDexterity());
 		ksession.insert(monster.getConstitution());
@@ -33,11 +35,16 @@ public class MonsterServiceKie implements MonsterService {
 		ksession.insert(monster.getWisdom());
 		ksession.insert(monster.getCharisma());
 		ksession.fireAllRules();
+		ksession.dispose();
+		/*KieSession kieSession = kieContainer.newKieSession("ExampleSession");
+        kieSession.insert(monster);
+        kieSession.fireAllRules();
+        kieSession.dispose();*/
 		return monster;
 	}
 	
 	private String getAbilityModifierRules() {
-		InputStream template = MonsterServiceKie.class.getResourceAsStream("templates/ability-modifiers.drt");
+		InputStream template = MonsterServiceKie.class.getResourceAsStream("/templates/ability-modifiers.drt");
 		
 		DataProvider dataProvider = new ArrayDataProvider(new String[][] {
 			new String[] {"0", "1", "-5"},
