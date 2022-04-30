@@ -1,0 +1,20 @@
+template header
+minScore
+maxScore
+modifier
+
+import com.sbnz.crcalculator.facts.Monster;
+import com.sbnz.crcalculator.facts.Ability;
+
+template "ability-modifiers"
+
+	rule "Determine modifier for ability score @{minScore}-@{maxScore}"
+	lock-on-active true
+	when
+		$a: Ability(abilityScore >= @{minScore} && abilityScore <= @{maxScore})
+	then
+		System.out.println("Determine modifier for ability score @{minScore}-@{maxScore} fired");
+		modify ($a){ setAbilityModifier(@{modifier}) };
+	end
+
+end template
