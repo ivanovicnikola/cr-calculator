@@ -1,30 +1,30 @@
 package com.sbnz.crcalculator.facts;
 
 public class Ability {
-	private int abilityScore;
-	private int abilityModifier;
+	private Integer abilityScore;
+	private Integer abilityModifier;
 	
 	public Ability() { }
-	
-	public Ability(int abilityScore, int abilityModifier) {
+
+	public Ability(Integer abilityScore, Integer abilityModifier) {
 		super();
 		this.abilityScore = abilityScore;
 		this.abilityModifier = abilityModifier;
 	}
 
-	public int getAbilityScore() {
+	public Integer getAbilityScore() {
 		return abilityScore;
 	}
 
-	public void setAbilityScore(int abilityScore) {
+	public void setAbilityScore(Integer abilityScore) {
 		this.abilityScore = abilityScore;
 	}
 
-	public int getAbilityModifier() {
+	public Integer getAbilityModifier() {
 		return abilityModifier;
 	}
 
-	public void setAbilityModifier(int abilityModifier) {
+	public void setAbilityModifier(Integer abilityModifier) {
 		this.abilityModifier = abilityModifier;
 	}
 }

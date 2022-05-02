@@ -2,11 +2,11 @@ package com.sbnz.crcalculator.facts;
 
 public class Die {
 	private String name;
-	private double averageRoll;
+	private Double averageRoll;
 	
 	public Die() { }
 	
-	public Die(String name, double averageRoll) {
+	public Die(String name, Double averageRoll) {
 		super();
 		this.name = name;
 		this.averageRoll = averageRoll;
@@ -20,11 +20,11 @@ public class Die {
 		this.name = name;
 	}
 
-	public double getAverageRoll() {
+	public Double getAverageRoll() {
 		return averageRoll;
 	}
 
-	public void setAverageRoll(double averageRoll) {
+	public void setAverageRoll(Double averageRoll) {
 		this.averageRoll = averageRoll;
 	}
 	

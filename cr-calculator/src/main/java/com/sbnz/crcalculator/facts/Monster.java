@@ -1,37 +1,44 @@
 package com.sbnz.crcalculator.facts;
 
+import org.kie.api.definition.type.PropertyReactive;
+
+@PropertyReactive
 public class Monster {
 	private String name;
+	private MonsterSize size;
 	private Ability strength;
 	private Ability dexterity;
 	private Ability constitution;
 	private Ability intelligence;
 	private Ability wisdom;
 	private Ability charisma;
-	private double expectedChallengeRating;
-	private int proficiencyBonus;
-	private int armorClass;
-	private int numberOfHitDice;
+	private Double challengeRating;
+	private Integer proficiencyBonus;
+	private Integer armorClass;
+	private Integer numberOfHitDice;
 	private Die hitDie;
+	private Integer averageHitPoints;
 	
 	public Monster() { }
-	
-	public Monster(String name, Ability strength, Ability dexterity, Ability constitution, Ability intelligence,
-			Ability wisdom, Ability charisma, double expectedChallengeRating, int proficiencyBonus, int armorClass,
-			int numberOfHitDice, Die hitDie) {
+
+	public Monster(String name, MonsterSize size, Ability strength, Ability dexterity, Ability constitution,
+			Ability intelligence, Ability wisdom, Ability charisma, Double challengeRating, Integer proficiencyBonus,
+			Integer armorClass, Integer numberOfHitDice, Die hitDie, Integer averageHitPoints) {
 		super();
 		this.name = name;
+		this.size = size;
 		this.strength = strength;
 		this.dexterity = dexterity;
 		this.constitution = constitution;
 		this.intelligence = intelligence;
 		this.wisdom = wisdom;
 		this.charisma = charisma;
-		this.expectedChallengeRating = expectedChallengeRating;
+		this.challengeRating = challengeRating;
 		this.proficiencyBonus = proficiencyBonus;
 		this.armorClass = armorClass;
 		this.numberOfHitDice = numberOfHitDice;
 		this.hitDie = hitDie;
+		this.averageHitPoints = averageHitPoints;
 	}
 
 	public String getName() {
@@ -40,6 +47,14 @@ public class Monster {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public MonsterSize getSize() {
+		return size;
+	}
+
+	public void setSize(MonsterSize size) {
+		this.size = size;
 	}
 
 	public Ability getStrength() {
@@ -90,39 +105,35 @@ public class Monster {
 		this.charisma = charisma;
 	}
 
-	public double getExpectedChallengeRating() {
-		return expectedChallengeRating;
+	public Double getChallengeRating() {
+		return challengeRating;
 	}
 
-	public void setExpectedChallengeRating(double expectedChallengeRating) {
-		this.expectedChallengeRating = expectedChallengeRating;
+	public void setChallengeRating(Double challengeRating) {
+		this.challengeRating = challengeRating;
 	}
 
-	public int getProficiencyBonus() {
+	public Integer getProficiencyBonus() {
 		return proficiencyBonus;
 	}
 
-	public void setProficiencyBonus(int proficiencyBonus) {
+	public void setProficiencyBonus(Integer proficiencyBonus) {
 		this.proficiencyBonus = proficiencyBonus;
 	}
 
-	public int getArmorClass() {
+	public Integer getArmorClass() {
 		return armorClass;
 	}
 
-	public void setArmorClass(int armorClass) {
+	public void setArmorClass(Integer armorClass) {
 		this.armorClass = armorClass;
 	}
 
-	public int getAverageHitPoints() {
-		return (int) (numberOfHitDice*(hitDie.getAverageRoll() + constitution.getAbilityModifier()));
-	}
-
-	public int getNumberOfHitDice() {
+	public Integer getNumberOfHitDice() {
 		return numberOfHitDice;
 	}
 
-	public void setNumberOfHitDice(int numberOfHitDice) {
+	public void setNumberOfHitDice(Integer numberOfHitDice) {
 		this.numberOfHitDice = numberOfHitDice;
 	}
 
@@ -132,6 +143,14 @@ public class Monster {
 
 	public void setHitDie(Die hitDie) {
 		this.hitDie = hitDie;
+	}
+
+	public Integer getAverageHitPoints() {
+		return averageHitPoints;
+	}
+
+	public void setAverageHitPoints(Integer averageHitPoints) {
+		this.averageHitPoints = averageHitPoints;
 	}
 	
 }

@@ -1,0 +1,22 @@
+template header
+monsterSize
+dieName
+averageRoll
+
+package templates
+
+import com.sbnz.crcalculator.facts.Monster;
+import com.sbnz.crcalculator.facts.Die;
+
+template "hit-dice-by-size"
+
+	rule "Determine hit dice for size @{monsterSize}"
+	lock-on-active
+	    when
+	        $m: Monster("@{monsterSize}".equalsIgnoreCase(size.name()))
+	    then
+	    	System.out.println("Determine hit dice for size @{monsterSize} fired");
+	        modify ($m) { setHitDie(new Die("@{dieName}", @{averageRoll}))};
+	end
+
+end template

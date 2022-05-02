@@ -51,6 +51,14 @@ public class MonsterServiceKie implements MonsterService {
 		return drl;
 	}
 	
+	private String getHitDiceBySizeRules() {
+		InputStream template = MonsterServiceKie.class.getResourceAsStream("/templates/hit-dice-by-size.drl");
+		InputStream data = MonsterServiceKie.class.getResourceAsStream("/templates/hit-dice-by-size.xlsx");
+		ExternalSpreadsheetCompiler converter = new ExternalSpreadsheetCompiler();
+		String drl = converter.compile(data, template, 3, 2);
+		return drl;
+	}
+	
 	private KieSession createKieSession() {
 		KieHelper kieHelper = new KieHelper();
 		try {
@@ -65,6 +73,9 @@ public class MonsterServiceKie implements MonsterService {
 		
 		String statsByCr = getStatisticsByCrRules();
 		kieHelper.addContent(statsByCr, ResourceType.DRL);
+		
+		String hitDiceBySize = getHitDiceBySizeRules();
+		kieHelper.addContent(hitDiceBySize, ResourceType.DRL);
         
         Results results = kieHelper.verify();
         

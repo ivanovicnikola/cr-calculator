@@ -15,12 +15,11 @@ import com.sbnz.crcalculator.facts.Monster;
 
 template "statistics-by-cr"
 
-	rule "Determine proficiency bonus for expected challenge rating @{challengeRating}"
-	lock-on-active
+	rule "Determine proficiency bonus for challenge rating @{challengeRating}"
 	when
-		$m: Monster(expectedChallengeRating == @{challengeRating})
+		$m: Monster(challengeRating == @{challengeRating}) @Watch(challengeRating)
 	then
-		System.out.println("Determine proficiency bonus for expected challenge rating @{challengeRating} fired");
+		System.out.println("Determine proficiency bonus for challenge rating @{challengeRating} fired");
 		modify ($m) { setProficiencyBonus(@{proficiencyBonus}) };
 	end
 
