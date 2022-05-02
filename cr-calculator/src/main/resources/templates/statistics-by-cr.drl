@@ -1,0 +1,27 @@
+template header
+challengeRating
+proficiencyBonus
+armorClass
+minHitPoints
+maxHitPoints
+attackBonus
+minDamage
+maxDamage
+saveDc
+
+package templates
+
+import com.sbnz.crcalculator.facts.Monster;
+
+template "statistics-by-cr"
+
+	rule "Determine proficiency bonus for expected challenge rating @{challengeRating}"
+	lock-on-active
+	when
+		$m: Monster(expectedChallengeRating == @{challengeRating})
+	then
+		System.out.println("Determine proficiency bonus for expected challenge rating @{challengeRating} fired");
+		modify ($m) { setProficiencyBonus(@{proficiencyBonus}) };
+	end
+
+end template
