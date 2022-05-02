@@ -26,9 +26,13 @@ public class MonsterServiceKie implements MonsterService {
 	@Autowired
 	private KieContainer kieContainer;
 	
+	@Autowired
+	private DieService dieService;
+	
 	@Override
 	public Monster getClassifiedMonster(Monster monster) {
 		KieSession kieSession = createKieSession();
+		kieSession.setGlobal("dieService", dieService);
 		kieSession.insert(monster);
 		kieSession.fireAllRules();
 		kieSession.dispose();
