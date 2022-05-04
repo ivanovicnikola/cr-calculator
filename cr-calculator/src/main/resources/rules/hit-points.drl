@@ -1,12 +1,4 @@
-//created on: 02.05.2022.
 package rules
-
-//list any import classes here.
-
-
-
-//declare any global variables here
-
 
 import com.sbnz.crcalculator.facts.Monster;
 

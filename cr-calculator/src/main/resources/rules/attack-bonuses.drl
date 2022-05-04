@@ -1,0 +1,27 @@
+package rules
+
+import com.sbnz.crcalculator.facts.Monster;
+import com.sbnz.crcalculator.facts.Action;
+import com.sbnz.crcalculator.facts.Attack;
+
+rule "Determine strength attack bonus"
+    when
+        $m: Monster($actions: actions, $p: proficiencyBonus != null, $s: strength.abilityModifier != null)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility.name().equalsIgnoreCase("STRENGTH"), attackBonus == null) from $attacks
+    then
+        System.out.println("Determine strength attack bonus fired");
+        $attack.setAttackBonus($s + $p);
+        modify ($m) { setActions($actions) };
+end
+
+rule "Determine dexterity attack bonus"
+    when
+        $m: Monster($actions: actions, $p: proficiencyBonus != null, $d: dexterity.abilityModifier != null)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility.name().equalsIgnoreCase("DEXTERITY"), attackBonus == null) from $attacks
+    then
+        System.out.println("Determine dexterity attack bonus fired");
+        $attack.setAttackBonus($d + $p);
+        modify ($m) { setActions($actions) };
+end

@@ -1,5 +1,8 @@
 package com.sbnz.crcalculator.facts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kie.api.definition.type.PropertyReactive;
 
 @PropertyReactive
@@ -18,6 +21,7 @@ public class Monster {
 	private Integer numberOfHitDice;
 	private Die hitDie;
 	private Integer averageHitPoints;
+	private List<Action> actions = new ArrayList<>();
 	
 	public Monster() { }
 
@@ -151,6 +155,14 @@ public class Monster {
 
 	public void setAverageHitPoints(Integer averageHitPoints) {
 		this.averageHitPoints = averageHitPoints;
+	}
+
+	public List<Action> getActions() {
+		return actions;
+	}
+
+	public void setActions(List<Action> actions) {
+		this.actions = actions;
 	}
 	
 }
