@@ -38,7 +38,7 @@ rule "Determine average damage for attack"
         $attack: Attack(damageBonus != null, averageDamage == null) from $attacks
 	then
 		System.out.println("Determine average damage for attack fired");
-		$attack.setAverageDamage($attack.getBaseDamage().getAverageValue() + $attack.getDamageBonus());
+		$attack.setAverageDamage(($attack.getBaseDamage().getAverageValue() + $attack.getDamageBonus()) * $attack.getNumberPerRound());
 		modify ($m) { setActions($actions) };
 
 end

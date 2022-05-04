@@ -2,6 +2,7 @@ package com.sbnz.crcalculator.facts;
 
 public class Attack {
 	private String name;
+	private Integer numberPerRound;
 	private AttackRangeType rangeType;
 	private Integer attackBonus;
 	private Integer reach;
@@ -12,10 +13,11 @@ public class Attack {
 	
 	public Attack() { }
 
-	public Attack(String name, AttackRangeType rangeType, Integer attackBonus, Integer reach, DamageUnit baseDamage,
-			Integer damageBonus, AbilityName relevantAbility, Integer averageDamage) {
+	public Attack(String name, Integer numberPerRound, AttackRangeType rangeType, Integer attackBonus, Integer reach,
+			DamageUnit baseDamage, Integer damageBonus, AbilityName relevantAbility, Integer averageDamage) {
 		super();
 		this.name = name;
+		this.numberPerRound = numberPerRound;
 		this.rangeType = rangeType;
 		this.attackBonus = attackBonus;
 		this.reach = reach;
@@ -31,6 +33,14 @@ public class Attack {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Integer getNumberPerRound() {
+		return numberPerRound;
+	}
+
+	public void setNumberPerRound(Integer numberPerRound) {
+		this.numberPerRound = numberPerRound;
 	}
 
 	public AttackRangeType getRangeType() {
@@ -88,4 +98,5 @@ public class Attack {
 	public void setAverageDamage(Integer averageDamage) {
 		this.averageDamage = averageDamage;
 	}
+	
 }
