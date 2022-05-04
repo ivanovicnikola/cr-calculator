@@ -12,15 +12,17 @@ saveDc
 package templates
 
 import com.sbnz.crcalculator.facts.Monster;
+import com.sbnz.crcalculator.facts.Action;
+import com.sbnz.crcalculator.facts.Attack;
 
 template "statistics-by-cr"
 
 	rule "Determine proficiency bonus for challenge rating @{challengeRating}"
-	when
-		$m: Monster(challengeRating == @{challengeRating}) @Watch(challengeRating)
-	then
-		System.out.println("Determine proficiency bonus for challenge rating @{challengeRating} fired");
-		modify ($m) { setProficiencyBonus(@{proficiencyBonus}) };
+		when
+			$m: Monster(challengeRating == @{challengeRating}) @Watch(challengeRating)
+		then
+			System.out.println("Determine proficiency bonus for challenge rating @{challengeRating} fired");
+			modify ($m) { setProficiencyBonus(@{proficiencyBonus}) };
 	end
 
 end template

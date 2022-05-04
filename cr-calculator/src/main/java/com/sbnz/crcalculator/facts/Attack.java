@@ -1,7 +1,5 @@
 package com.sbnz.crcalculator.facts;
 
-import java.util.List;
-
 public class Attack {
 	private String name;
 	private AttackRangeType rangeType;
@@ -9,13 +7,13 @@ public class Attack {
 	private Integer reach;
 	private DamageUnit baseDamage;
 	private Integer damageBonus;
-	private List<DamageUnit> additionalDamage;
 	private AbilityName relevantAbility;
+	private Integer averageDamage;
 	
 	public Attack() { }
 
 	public Attack(String name, AttackRangeType rangeType, Integer attackBonus, Integer reach, DamageUnit baseDamage,
-			Integer damageBonus, List<DamageUnit> additionalDamage, AbilityName relevantAbility) {
+			Integer damageBonus, AbilityName relevantAbility, Integer averageDamage) {
 		super();
 		this.name = name;
 		this.rangeType = rangeType;
@@ -23,8 +21,8 @@ public class Attack {
 		this.reach = reach;
 		this.baseDamage = baseDamage;
 		this.damageBonus = damageBonus;
-		this.additionalDamage = additionalDamage;
 		this.relevantAbility = relevantAbility;
+		this.averageDamage = averageDamage;
 	}
 
 	public String getName() {
@@ -75,19 +73,19 @@ public class Attack {
 		this.damageBonus = damageBonus;
 	}
 
-	public List<DamageUnit> getAdditionalDamage() {
-		return additionalDamage;
-	}
-
-	public void setAdditionalDamage(List<DamageUnit> additionalDamage) {
-		this.additionalDamage = additionalDamage;
-	}
-
 	public AbilityName getRelevantAbility() {
 		return relevantAbility;
 	}
 
 	public void setRelevantAbility(AbilityName relevantAbility) {
 		this.relevantAbility = relevantAbility;
+	}
+
+	public Integer getAverageDamage() {
+		return averageDamage;
+	}
+
+	public void setAverageDamage(Integer averageDamage) {
+		this.averageDamage = averageDamage;
 	}
 }

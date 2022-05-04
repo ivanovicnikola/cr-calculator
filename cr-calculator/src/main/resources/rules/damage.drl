@@ -1,0 +1,63 @@
+package rules
+
+import com.sbnz.crcalculator.facts.Monster;
+import com.sbnz.crcalculator.facts.Action;
+import com.sbnz.crcalculator.facts.Attack;
+
+rule "Determine strength damage bonus"
+
+    when
+        $m: Monster($actions: actions, $s: strength.abilityModifier != null)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility.name().equalsIgnoreCase("STRENGTH"), damageBonus == null) from $attacks
+    then
+        System.out.println("Determine strength damage bonus fired");
+        $attack.setDamageBonus($s);
+        modify ($m) { setActions($actions) };
+        
+end
+
+rule "Determine dexterity damage bonus"
+
+    when
+        $m: Monster($actions: actions, $d: dexterity.abilityModifier != null)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility.name().equalsIgnoreCase("DEXTERITY"), damageBonus == null) from $attacks
+    then
+        System.out.println("Determine dexterity damage bonus fired");
+        $attack.setDamageBonus($d);
+        modify ($m) { setActions($actions) };
+
+end
+
+rule "Determine average damage for attack"
+
+	when
+		$m: Monster($actions: actions)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(damageBonus != null, averageDamage == null) from $attacks
+	then
+		System.out.println("Determine average damage for attack fired");
+		$attack.setAverageDamage($attack.getBaseDamage().getAverageValue() + $attack.getDamageBonus());
+		modify ($m) { setActions($actions) };
+
+end
+
+rule "Determine average damage for action"
+
+	when
+		$m: Monster($actions: actions)
+        $action: Action($attacks: attacks, averageDamage == null) from $actions
+        forall(Attack(averageDamage != null ) from $attacks)
+       	$averageDamage: Number() from accumulate(
+       		$attack: Attack(
+       			averageDamage != null
+       		) from $attacks,
+       		sum($attack.getAverageDamage())
+       	)
+	then
+		System.out.println("Determine average damage for action fired");
+		$action.setAverageDamage($averageDamage.intValue());
+		modify ($m) {setActions($actions)};
+		
+end

@@ -22,12 +22,15 @@ public class Monster {
 	private Die hitDie;
 	private Integer averageHitPoints;
 	private List<Action> actions = new ArrayList<>();
+	private Double offensiveChallengeRating;
+	private Double deffensiveChallengeRating;
 	
 	public Monster() { }
 
 	public Monster(String name, MonsterSize size, Ability strength, Ability dexterity, Ability constitution,
 			Ability intelligence, Ability wisdom, Ability charisma, Double challengeRating, Integer proficiencyBonus,
-			Integer armorClass, Integer numberOfHitDice, Die hitDie, Integer averageHitPoints) {
+			Integer armorClass, Integer numberOfHitDice, Die hitDie, Integer averageHitPoints, List<Action> actions,
+			Double offensiveChallengeRating, Double deffensiveChallengeRating) {
 		super();
 		this.name = name;
 		this.size = size;
@@ -43,6 +46,9 @@ public class Monster {
 		this.numberOfHitDice = numberOfHitDice;
 		this.hitDie = hitDie;
 		this.averageHitPoints = averageHitPoints;
+		this.actions = actions;
+		this.offensiveChallengeRating = offensiveChallengeRating;
+		this.deffensiveChallengeRating = deffensiveChallengeRating;
 	}
 
 	public String getName() {
@@ -163,6 +169,22 @@ public class Monster {
 
 	public void setActions(List<Action> actions) {
 		this.actions = actions;
+	}
+
+	public Double getOffensiveChallengeRating() {
+		return offensiveChallengeRating;
+	}
+
+	public void setOffensiveChallengeRating(Double offensiveChallengeRating) {
+		this.offensiveChallengeRating = offensiveChallengeRating;
+	}
+
+	public Double getDeffensiveChallengeRating() {
+		return deffensiveChallengeRating;
+	}
+
+	public void setDeffensiveChallengeRating(Double deffensiveChallengeRating) {
+		this.deffensiveChallengeRating = deffensiveChallengeRating;
 	}
 	
 }
