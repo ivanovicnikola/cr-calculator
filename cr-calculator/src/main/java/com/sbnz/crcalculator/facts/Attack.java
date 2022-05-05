@@ -3,9 +3,7 @@ package com.sbnz.crcalculator.facts;
 public class Attack {
 	private String name;
 	private Integer numberPerRound;
-	private AttackRangeType rangeType;
 	private Integer attackBonus;
-	private Integer reach;
 	private DamageUnit baseDamage;
 	private Integer damageBonus;
 	private AbilityName relevantAbility;
@@ -13,14 +11,12 @@ public class Attack {
 	
 	public Attack() { }
 
-	public Attack(String name, Integer numberPerRound, AttackRangeType rangeType, Integer attackBonus, Integer reach,
-			DamageUnit baseDamage, Integer damageBonus, AbilityName relevantAbility, Integer averageDamage) {
+	public Attack(String name, Integer numberPerRound, Integer attackBonus, DamageUnit baseDamage, Integer damageBonus,
+			AbilityName relevantAbility, Integer averageDamage) {
 		super();
 		this.name = name;
 		this.numberPerRound = numberPerRound;
-		this.rangeType = rangeType;
 		this.attackBonus = attackBonus;
-		this.reach = reach;
 		this.baseDamage = baseDamage;
 		this.damageBonus = damageBonus;
 		this.relevantAbility = relevantAbility;
@@ -43,28 +39,12 @@ public class Attack {
 		this.numberPerRound = numberPerRound;
 	}
 
-	public AttackRangeType getRangeType() {
-		return rangeType;
-	}
-
-	public void setRangeType(AttackRangeType rangeType) {
-		this.rangeType = rangeType;
-	}
-
 	public Integer getAttackBonus() {
 		return attackBonus;
 	}
 
 	public void setAttackBonus(Integer attackBonus) {
 		this.attackBonus = attackBonus;
-	}
-
-	public Integer getReach() {
-		return reach;
-	}
-
-	public void setReach(Integer reach) {
-		this.reach = reach;
 	}
 
 	public DamageUnit getBaseDamage() {
@@ -98,5 +78,5 @@ public class Attack {
 	public void setAverageDamage(Integer averageDamage) {
 		this.averageDamage = averageDamage;
 	}
-	
+
 }

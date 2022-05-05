@@ -12,7 +12,7 @@ template "ability-modifiers"
 	rule "Determine modifier for Strength @{minScore}-@{maxScore}"
 	lock-on-active true
 	when
-		$m: Monster(strength.abilityScore >= @{minScore} && strength.abilityScore <= @{maxScore})
+		$m: Monster(strength.abilityScore >= @{minScore}, strength.abilityScore <= @{maxScore})
 	then
 		System.out.println("Determine modifier for Strength @{minScore}-@{maxScore} fired");
 		modify ($m){ getStrength().setAbilityModifier(@{modifier}) };
@@ -21,7 +21,7 @@ template "ability-modifiers"
 	rule "Determine modifier for Dexterity @{minScore}-@{maxScore}"
 	lock-on-active true
 	when
-		$m: Monster(dexterity.abilityScore >= @{minScore} && dexterity.abilityScore <= @{maxScore})
+		$m: Monster(dexterity.abilityScore >= @{minScore}, dexterity.abilityScore <= @{maxScore})
 	then
 		System.out.println("Determine modifier for Dexterity @{minScore}-@{maxScore} fired");
 		modify ($m){ getDexterity().setAbilityModifier(@{modifier}) };
@@ -30,7 +30,7 @@ template "ability-modifiers"
 	rule "Determine modifier for Constitution @{minScore}-@{maxScore}"
 	lock-on-active true
 	when
-		$m: Monster(constitution.abilityScore >= @{minScore} && constitution.abilityScore <= @{maxScore})
+		$m: Monster(constitution.abilityScore >= @{minScore}, constitution.abilityScore <= @{maxScore})
 	then
 		System.out.println("Determine modifier for Constitution @{minScore}-@{maxScore} fired");
 		modify ($m){ getConstitution().setAbilityModifier(@{modifier}) };
@@ -39,7 +39,7 @@ template "ability-modifiers"
 	rule "Determine modifier for Intelligence @{minScore}-@{maxScore}"
 	lock-on-active true
 	when
-		$m: Monster(intelligence.abilityScore >= @{minScore} && intelligence.abilityScore <= @{maxScore})
+		$m: Monster(intelligence.abilityScore >= @{minScore}, intelligence.abilityScore <= @{maxScore})
 	then
 		System.out.println("Determine modifier for Intelligence @{minScore}-@{maxScore} fired");
 		modify ($m){ getIntelligence().setAbilityModifier(@{modifier}) };
@@ -48,7 +48,7 @@ template "ability-modifiers"
 	rule "Determine modifier for Wisdom @{minScore}-@{maxScore}"
 	lock-on-active true
 	when
-		$m: Monster(wisdom.abilityScore >= @{minScore} && wisdom.abilityScore <= @{maxScore})
+		$m: Monster(wisdom.abilityScore >= @{minScore}, wisdom.abilityScore <= @{maxScore})
 	then
 		System.out.println("Determine modifier for Wisdom @{minScore}-@{maxScore} fired");
 		modify ($m){ getWisdom().setAbilityModifier(@{modifier}) };
@@ -57,7 +57,7 @@ template "ability-modifiers"
 	rule "Determine modifier for Charisma @{minScore}-@{maxScore}"
 	lock-on-active true
 	when
-		$m: Monster(charisma.abilityScore >= @{minScore} && charisma.abilityScore <= @{maxScore})
+		$m: Monster(charisma.abilityScore >= @{minScore}, charisma.abilityScore <= @{maxScore})
 	then
 		System.out.println("Determine modifier for Charisma @{minScore}-@{maxScore} fired");
 		modify ($m){ getCharisma().setAbilityModifier(@{modifier}) };
