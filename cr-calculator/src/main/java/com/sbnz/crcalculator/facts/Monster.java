@@ -15,22 +15,22 @@ public class Monster {
 	private Ability intelligence;
 	private Ability wisdom;
 	private Ability charisma;
-	private Double challengeRating;
+	private String challengeRating;
 	private Integer proficiencyBonus;
 	private Integer armorClass;
 	private Integer numberOfHitDice;
 	private Die hitDie;
 	private Integer averageHitPoints;
 	private List<Action> actions = new ArrayList<>();
-	private Double offensiveChallengeRating;
-	private Double defensiveChallengeRating;
+	private String offensiveChallengeRating;
+	private String defensiveChallengeRating;
 	
 	public Monster() { }
 
 	public Monster(String name, MonsterSize size, Ability strength, Ability dexterity, Ability constitution,
-			Ability intelligence, Ability wisdom, Ability charisma, Double challengeRating, Integer proficiencyBonus,
+			Ability intelligence, Ability wisdom, Ability charisma, String challengeRating, Integer proficiencyBonus,
 			Integer armorClass, Integer numberOfHitDice, Die hitDie, Integer averageHitPoints, List<Action> actions,
-			Double offensiveChallengeRating, Double defensiveChallengeRating) {
+			String offensiveChallengeRating, String defensiveChallengeRating) {
 		super();
 		this.name = name;
 		this.size = size;
@@ -115,11 +115,11 @@ public class Monster {
 		this.charisma = charisma;
 	}
 
-	public Double getChallengeRating() {
+	public String getChallengeRating() {
 		return challengeRating;
 	}
 
-	public void setChallengeRating(Double challengeRating) {
+	public void setChallengeRating(String challengeRating) {
 		this.challengeRating = challengeRating;
 	}
 
@@ -171,20 +171,20 @@ public class Monster {
 		this.actions = actions;
 	}
 
-	public Double getOffensiveChallengeRating() {
+	public String getOffensiveChallengeRating() {
 		return offensiveChallengeRating;
 	}
 
-	public void setOffensiveChallengeRating(Double offensiveChallengeRating) {
+	public void setOffensiveChallengeRating(String offensiveChallengeRating) {
 		this.offensiveChallengeRating = offensiveChallengeRating;
 	}
 
-	public Double getDefensiveChallengeRating() {
+	public String getDefensiveChallengeRating() {
 		return defensiveChallengeRating;
 	}
 
-	public void setDefensiveChallengeRating(Double defensiveChallengeRating) {
+	public void setDefensiveChallengeRating(String defensiveChallengeRating) {
 		this.defensiveChallengeRating = defensiveChallengeRating;
 	}
-	
+
 }

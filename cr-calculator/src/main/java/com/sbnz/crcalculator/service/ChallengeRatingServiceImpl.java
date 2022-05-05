@@ -14,17 +14,17 @@ public class ChallengeRatingServiceImpl implements ChallengeRatingService {
 	private ChallengeRatingRepository challengeRatingRepository;
 	
 	@Override
-	public Double findByStep(Double currentValue, Integer step) {
+	public String findByStep(String currentValue, Integer step) {
 		return challengeRatingRepository.findByStep(currentValue, step);
 	}
 
 	@Override
-	public Collection<Double> findAll() {
+	public Collection<String> findAll() {
 		return challengeRatingRepository.findAll();
 	}
 
 	@Override
-	public Double findAverageChallengeRating(Double firstValue, Double secondValue) {
+	public String findAverageChallengeRating(String firstValue, String secondValue) {
 		return challengeRatingRepository.findAverageChallengeRating(firstValue, secondValue);
 	}
 

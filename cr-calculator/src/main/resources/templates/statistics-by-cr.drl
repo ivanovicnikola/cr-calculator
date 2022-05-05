@@ -23,7 +23,7 @@ template "statistics-by-cr"
 
 	rule "Determine proficiency bonus for challenge rating @{challengeRating}"
 		when
-			$m: Monster(challengeRating == @{challengeRating}) @Watch(challengeRating)
+			$m: Monster(challengeRating.equals("@{challengeRating}")) @Watch(challengeRating)
 		then
 			System.out.println("Determine proficiency bonus for challenge rating @{challengeRating} fired");
 			modify ($m) { setProficiencyBonus(@{proficiencyBonus}) };
@@ -56,7 +56,7 @@ template "statistics-by-cr"
 			)
 		then
 			System.out.println("Determine offensive challenge rating for damage @{minDamage}-@{maxDamage} fired");
-			modify ($m) {setOffensiveChallengeRating(challengeRatingService.findByStep( (double)@{challengeRating}, (Integer)(($attackBonus.intValue() - @{attackBonus})/2) ))};
+			modify ($m) {setOffensiveChallengeRating(challengeRatingService.findByStep( "@{challengeRating}", (Integer)(($attackBonus.intValue() - @{attackBonus})/2) ))};
 	end
 	
 	rule "Determine defensive challenge rating for hit points @{minHitPoints}-@{maxHitPoints}"
@@ -64,7 +64,7 @@ template "statistics-by-cr"
 			$m: Monster(averageHitPoints >= @{minHitPoints}, averageHitPoints <= @{maxHitPoints}, defensiveChallengeRating == null, $ac: armorClass)
 		then
 			System.out.println("Determine defensive challenge rating for hit points @{minHitPoints}-@{maxHitPoints} fired");
-			modify ($m) {setDefensiveChallengeRating(challengeRatingService.findByStep( (double)@{challengeRating}, (Integer)(($ac - @{armorClass})/2) ))}
+			modify ($m) {setDefensiveChallengeRating(challengeRatingService.findByStep( "@{challengeRating}", (Integer)(($ac - @{armorClass})/2) ))}
 	end
 	
 end template

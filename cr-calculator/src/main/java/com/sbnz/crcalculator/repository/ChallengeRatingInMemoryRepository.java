@@ -9,20 +9,47 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ChallengeRatingInMemoryRepository implements ChallengeRatingRepository {
 
-	List<Double> challengeRatings = new ArrayList<Double>();
+	List<String> challengeRatings = new ArrayList<String>();
 	
 	public ChallengeRatingInMemoryRepository() {
-		challengeRatings.add(0.0);
-		challengeRatings.add(0.125);
-		challengeRatings.add(0.25);
-		challengeRatings.add(0.5);
-		for(double i = 1; i <= 30; i++) {
-			challengeRatings.add(i);
-		}
+		challengeRatings.add("0");
+		challengeRatings.add("1/8");
+		challengeRatings.add("1/4");
+		challengeRatings.add("1/2");
+		challengeRatings.add("1");
+		challengeRatings.add("2");
+		challengeRatings.add("3");
+		challengeRatings.add("4");
+		challengeRatings.add("5");
+		challengeRatings.add("6");
+		challengeRatings.add("7");
+		challengeRatings.add("8");
+		challengeRatings.add("9");
+		challengeRatings.add("10");
+		challengeRatings.add("11");
+		challengeRatings.add("12");
+		challengeRatings.add("13");
+		challengeRatings.add("14");
+		challengeRatings.add("15");
+		challengeRatings.add("16");
+		challengeRatings.add("17");
+		challengeRatings.add("18");
+		challengeRatings.add("19");
+		challengeRatings.add("20");
+		challengeRatings.add("21");
+		challengeRatings.add("22");
+		challengeRatings.add("23");
+		challengeRatings.add("24");
+		challengeRatings.add("25");
+		challengeRatings.add("26");
+		challengeRatings.add("27");
+		challengeRatings.add("28");
+		challengeRatings.add("29");
+		challengeRatings.add("30");
 	}
 	
 	@Override
-	public Double findByStep(Double currentValue, Integer step) {
+	public String findByStep(String currentValue, Integer step) {
 		Integer index = challengeRatings.indexOf(currentValue) + step;
 		if(index < 0) {
 			return challengeRatings.get(0);
@@ -34,12 +61,12 @@ public class ChallengeRatingInMemoryRepository implements ChallengeRatingReposit
 	}
 
 	@Override
-	public Collection<Double> findAll() {
+	public Collection<String> findAll() {
 		return challengeRatings;
 	}
 
 	@Override
-	public Double findAverageChallengeRating(Double firstValue, Double secondValue) {
+	public String findAverageChallengeRating(String firstValue, String secondValue) {
 		Integer firstIndex = challengeRatings.indexOf(firstValue);
 		Integer secondIndex = challengeRatings.indexOf(secondValue);
 		Integer averageIndex = (firstIndex + secondIndex)/2;
