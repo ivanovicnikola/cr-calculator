@@ -29,10 +29,14 @@ public class MonsterServiceKie implements MonsterService {
 	@Autowired
 	private DieService dieService;
 	
+	@Autowired
+	private ChallengeRatingService challengeRatingService;
+	
 	@Override
 	public Monster getClassifiedMonster(Monster monster) {
 		KieSession kieSession = createKieSession();
 		kieSession.setGlobal("dieService", dieService);
+		kieSession.setGlobal("challengeRatingService", challengeRatingService);
 		kieSession.insert(monster);
 		kieSession.fireAllRules();
 		kieSession.dispose();

@@ -14,6 +14,10 @@ package templates
 import com.sbnz.crcalculator.facts.Monster;
 import com.sbnz.crcalculator.facts.Action;
 import com.sbnz.crcalculator.facts.Attack;
+import com.sbnz.crcalculator.service.ChallengeRatingService;
+import java.util.ArrayList;
+
+global ChallengeRatingService challengeRatingService;
 
 template "statistics-by-cr"
 
@@ -35,17 +39,32 @@ template "statistics-by-cr"
 				) from $actions,
 				max($action.getAverageDamage())
 			)
+			$attacks: ArrayList() from accumulate(
+				Action(
+					$as: attacks
+				) from $actions,
+				init(ArrayList list = new ArrayList();),
+				action(list.addAll($as);),
+				result(list)
+			)
+			forall(Attack(attackBonus != null) from $attacks)
+			$attackBonus: Number() from accumulate (
+				$attack: Attack(
+					attackBonus != null
+				) from $attacks,
+				average($attack.getAttackBonus())
+			)
 		then
 			System.out.println("Determine offensive challenge rating for damage @{minDamage}-@{maxDamage} fired");
-			modify ($m) {setOffensiveChallengeRating((double)@{challengeRating})};
+			modify ($m) {setOffensiveChallengeRating(challengeRatingService.findByStep( (double)@{challengeRating}, (Integer)(($attackBonus.intValue() - @{attackBonus})/2) ))};
 	end
 	
 	rule "Determine defensive challenge rating for hit points @{minHitPoints}-@{maxHitPoints}"
 		when
-			$m: Monster(averageHitPoints >= @{minHitPoints}, averageHitPoints <= @{maxHitPoints}, defensiveChallengeRating == null)
+			$m: Monster(averageHitPoints >= @{minHitPoints}, averageHitPoints <= @{maxHitPoints}, defensiveChallengeRating == null, $ac: armorClass)
 		then
 			System.out.println("Determine defensive challenge rating for hit points @{minHitPoints}-@{maxHitPoints} fired");
-			modify ($m) {setDefensiveChallengeRating((double)@{challengeRating})}
+			modify ($m) {setDefensiveChallengeRating(challengeRatingService.findByStep( (double)@{challengeRating}, (Integer)(($ac - @{armorClass})/2) ))}
 	end
 	
 end template

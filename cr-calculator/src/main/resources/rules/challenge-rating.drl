@@ -1,0 +1,16 @@
+package rules
+
+import com.sbnz.crcalculator.facts.Monster;
+import com.sbnz.crcalculator.service.ChallengeRatingService;
+
+global ChallengeRatingService challengeRatingService;
+
+rule "Determine challenge rating"
+
+    when
+        $m: Monster($d: defensiveChallengeRating != null, $o: offensiveChallengeRating != null)
+    then
+    	System.out.println("Determine challenge rating fired");
+        modify ($m) { setChallengeRating(challengeRatingService.findAverageChallengeRating($d, $o))};
+
+end
