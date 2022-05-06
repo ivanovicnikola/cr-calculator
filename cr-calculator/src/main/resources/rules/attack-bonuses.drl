@@ -5,23 +5,25 @@ import com.sbnz.crcalculator.facts.Action;
 import com.sbnz.crcalculator.facts.Attack;
 
 rule "Determine strength attack bonus"
+no-loop true
     when
-        $m: Monster($actions: actions, $p: proficiencyBonus != null, $s: strength.abilityModifier != null)
+        $m: Monster($actions: actions, $s: strength.abilityModifier != null) @Watch(proficiencyBonus)
         Action($attacks: attacks) from $actions
-        $attack: Attack(relevantAbility.name().equalsIgnoreCase("STRENGTH"), attackBonus == null) from $attacks
+        $attack: Attack(relevantAbility.name().equalsIgnoreCase("STRENGTH")) from $attacks
     then
         System.out.println("Determine strength attack bonus fired");
-        $attack.setAttackBonus($s + $p);
+        $attack.setAttackBonus($s + $m.getProficiencyBonus());
         modify ($m) { setActions($actions) };
 end
 
 rule "Determine dexterity attack bonus"
+no-loop true
     when
-        $m: Monster($actions: actions, $p: proficiencyBonus != null, $d: dexterity.abilityModifier != null)
+        $m: Monster($actions: actions, $d: dexterity.abilityModifier != null) @Watch(proficiencyBonus)
         Action($attacks: attacks) from $actions
-        $attack: Attack(relevantAbility.name().equalsIgnoreCase("DEXTERITY"), attackBonus == null) from $attacks
+        $attack: Attack(relevantAbility.name().equalsIgnoreCase("DEXTERITY")) from $attacks
     then
         System.out.println("Determine dexterity attack bonus fired");
-        $attack.setAttackBonus($d + $p);
+        $attack.setAttackBonus($d + $m.getProficiencyBonus());
         modify ($m) { setActions($actions) };
 end
