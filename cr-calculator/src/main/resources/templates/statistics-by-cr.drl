@@ -29,7 +29,7 @@ template "statistics-by-cr"
 			modify ($m) { setProficiencyBonus(@{proficiencyBonus}) };
 	end
 
-	rule "Determine offensive challenge rating for damage @{minDamage}-@{maxDamage}" salience 1
+	rule "Determine offensive challenge rating for damage @{minDamage}-@{maxDamage}"
 		when
 			$m: Monster($actions: actions, offensiveChallengeRating == null)
 			forall(Action() from $actions)
@@ -56,7 +56,7 @@ template "statistics-by-cr"
 	
 	rule "Determine defensive challenge rating for hit points @{minHitPoints}-@{maxHitPoints}"
 		when
-			$m: Monster(averageHitPoints >= @{minHitPoints}, averageHitPoints <= @{maxHitPoints}, defensiveChallengeRating == null, $ac: armorClass)
+			$m: Monster(constitution.abilityModifier != null, hitDie != null, averageHitPoints >= @{minHitPoints}, averageHitPoints <= @{maxHitPoints}, defensiveChallengeRating == null, $ac: armorClass)
 		then
 			System.out.println("Determine defensive challenge rating for hit points @{minHitPoints}-@{maxHitPoints} fired");
 			modify ($m) {setDefensiveChallengeRating(challengeRatingService.findByStep( "@{challengeRating}", (Integer)(($ac - @{armorClass})/2) ))}

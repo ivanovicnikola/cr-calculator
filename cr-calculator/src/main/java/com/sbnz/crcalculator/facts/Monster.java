@@ -20,7 +20,6 @@ public class Monster {
 	private Integer armorClass;
 	private Integer numberOfHitDice;
 	private Die hitDie;
-	private Integer averageHitPoints;
 	private List<Action> actions = new ArrayList<>();
 	private String offensiveChallengeRating;
 	private String defensiveChallengeRating;
@@ -29,7 +28,7 @@ public class Monster {
 
 	public Monster(String name, MonsterSize size, Ability strength, Ability dexterity, Ability constitution,
 			Ability intelligence, Ability wisdom, Ability charisma, String challengeRating, Integer proficiencyBonus,
-			Integer armorClass, Integer numberOfHitDice, Die hitDie, Integer averageHitPoints, List<Action> actions,
+			Integer armorClass, Integer numberOfHitDice, Die hitDie, List<Action> actions,
 			String offensiveChallengeRating, String defensiveChallengeRating) {
 		super();
 		this.name = name;
@@ -45,7 +44,6 @@ public class Monster {
 		this.armorClass = armorClass;
 		this.numberOfHitDice = numberOfHitDice;
 		this.hitDie = hitDie;
-		this.averageHitPoints = averageHitPoints;
 		this.actions = actions;
 		this.offensiveChallengeRating = offensiveChallengeRating;
 		this.defensiveChallengeRating = defensiveChallengeRating;
@@ -156,11 +154,7 @@ public class Monster {
 	}
 
 	public Integer getAverageHitPoints() {
-		return averageHitPoints;
-	}
-
-	public void setAverageHitPoints(Integer averageHitPoints) {
-		this.averageHitPoints = averageHitPoints;
+		return (int) (numberOfHitDice * (hitDie.getAverageRoll() + constitution.getAbilityModifier()));
 	}
 
 	public List<Action> getActions() {
