@@ -32,13 +32,7 @@ template "statistics-by-cr"
 	rule "Determine offensive challenge rating for damage @{minDamage}-@{maxDamage}" salience 1
 		when
 			$m: Monster($actions: actions, offensiveChallengeRating == null)
-			forall(Action(averageDamage != null) from $actions)
-			Number(intValue >= @{minDamage}, intValue <= @{maxDamage}) from accumulate(
-				$action: Action(
-					averageDamage != null
-				) from $actions,
-				max($action.getAverageDamage())
-			)
+			forall(Action() from $actions)
 			$attacks: ArrayList() from accumulate(
 				Action(
 					$as: attacks
@@ -47,16 +41,17 @@ template "statistics-by-cr"
 				action(list.addAll($as);),
 				result(list)
 			)
-			forall(Attack(attackBonus != null) from $attacks)
-			$attackBonus: Number() from accumulate (
-				$attack: Attack(
-					attackBonus != null
-				) from $attacks,
-				average($attack.getAttackBonus())
+			forall(Attack(attackBonus != null, damageBonus != null) from $attacks)
+			$n: Number(intValue >= @{minDamage}, intValue <= @{maxDamage}) from accumulate(
+				$action: Action(
+					averageDamage != null
+				) from $actions,
+				max($action.getAverageDamage())
 			)
+			$a: Action(averageDamage == $n.intValue()) from $actions
 		then
 			System.out.println("Determine offensive challenge rating for damage @{minDamage}-@{maxDamage} fired");
-			modify ($m) {setOffensiveChallengeRating(challengeRatingService.findByStep( "@{challengeRating}", (Integer)(($attackBonus.intValue() - @{attackBonus})/2) ))};
+			modify ($m) {setOffensiveChallengeRating(challengeRatingService.findByStep( "@{challengeRating}", (Integer)(($a.getMostCommonAttackBonus() - @{attackBonus})/2) ))};
 	end
 	
 	rule "Determine defensive challenge rating for hit points @{minHitPoints}-@{maxHitPoints}"

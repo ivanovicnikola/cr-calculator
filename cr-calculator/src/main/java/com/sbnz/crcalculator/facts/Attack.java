@@ -7,12 +7,11 @@ public class Attack {
 	private DamageUnit baseDamage;
 	private Integer damageBonus;
 	private AbilityName relevantAbility;
-	private Integer averageDamage;
 	
 	public Attack() { }
 
 	public Attack(String name, Integer numberPerRound, Integer attackBonus, DamageUnit baseDamage, Integer damageBonus,
-			AbilityName relevantAbility, Integer averageDamage) {
+			AbilityName relevantAbility) {
 		super();
 		this.name = name;
 		this.numberPerRound = numberPerRound;
@@ -20,7 +19,6 @@ public class Attack {
 		this.baseDamage = baseDamage;
 		this.damageBonus = damageBonus;
 		this.relevantAbility = relevantAbility;
-		this.averageDamage = averageDamage;
 	}
 
 	public String getName() {
@@ -72,11 +70,7 @@ public class Attack {
 	}
 
 	public Integer getAverageDamage() {
-		return averageDamage;
-	}
-
-	public void setAverageDamage(Integer averageDamage) {
-		this.averageDamage = averageDamage;
+		return (baseDamage.getAverageValue() + damageBonus) * numberPerRound;
 	}
 
 }

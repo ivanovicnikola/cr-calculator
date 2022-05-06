@@ -1,18 +1,20 @@
 package com.sbnz.crcalculator.facts;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class Action {
 	private List<Attack> attacks = new ArrayList<>();
-	private Integer averageDamage;
 	
 	public Action() { }
 
-	public Action(List<Attack> attacks, Integer averageDamage) {
+	public Action(List<Attack> attacks) {
 		super();
 		this.attacks = attacks;
-		this.averageDamage = averageDamage;
 	}
 
 	public List<Attack> getAttacks() {
@@ -24,10 +26,16 @@ public class Action {
 	}
 
 	public Integer getAverageDamage() {
-		return averageDamage;
+		return attacks.stream().mapToInt(attack -> attack.getAverageDamage()).sum();
 	}
-
-	public void setAverageDamage(Integer averageDamage) {
-		this.averageDamage = averageDamage;
+	
+	public Integer getMostCommonAttackBonus() {
+		return attacks
+        .stream()
+        .collect(Collectors.groupingBy(Attack::getAttackBonus, Collectors.counting()))
+        .entrySet()
+        .stream()
+        .max(Comparator.comparing(Entry::getValue))
+        .map(Map.Entry::getKey).orElse(null);
 	}
 }

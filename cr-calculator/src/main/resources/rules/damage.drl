@@ -29,35 +29,3 @@ rule "Determine dexterity damage bonus"
         modify ($m) { setActions($actions) };
 
 end
-
-rule "Determine average damage for attack"
-
-	when
-		$m: Monster($actions: actions)
-        Action($attacks: attacks) from $actions
-        $attack: Attack(damageBonus != null, averageDamage == null) from $attacks
-	then
-		System.out.println("Determine average damage for attack fired");
-		$attack.setAverageDamage(($attack.getBaseDamage().getAverageValue() + $attack.getDamageBonus()) * $attack.getNumberPerRound());
-		modify ($m) { setActions($actions) };
-
-end
-
-rule "Determine average damage for action"
-
-	when
-		$m: Monster($actions: actions)
-        $action: Action($attacks: attacks, averageDamage == null) from $actions
-        forall(Attack(averageDamage != null ) from $attacks)
-       	$averageDamage: Number() from accumulate(
-       		$attack: Attack(
-       			averageDamage != null
-       		) from $attacks,
-       		sum($attack.getAverageDamage())
-       	)
-	then
-		System.out.println("Determine average damage for action fired");
-		$action.setAverageDamage($averageDamage.intValue());
-		modify ($m) {setActions($actions)};
-		
-end
