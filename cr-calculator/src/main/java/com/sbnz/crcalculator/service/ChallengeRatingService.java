@@ -2,8 +2,10 @@ package com.sbnz.crcalculator.service;
 
 import java.util.Collection;
 
+import com.sbnz.crcalculator.facts.ChallengeRating;
+
 public interface ChallengeRatingService {
-	public String findByStep(String currentValue, Integer step);
-	public Collection<String> findAll();
-	public String findAverageChallengeRating(String firstValue, String secondValue);
+	public ChallengeRating findByOrdinal(Integer ordinal);
+	public Collection<ChallengeRating> findAll();
+	public ChallengeRating findByValue(String value);
 }

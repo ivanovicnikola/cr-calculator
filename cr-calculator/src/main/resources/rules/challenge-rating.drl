@@ -11,6 +11,7 @@ rule "Determine challenge rating"
         $m: Monster($d: defensiveChallengeRating != null, $o: offensiveChallengeRating != null)
     then
     	System.out.println("Determine challenge rating fired");
-        modify ($m) { setChallengeRating(challengeRatingService.findAverageChallengeRating($d, $o))};
+    	Integer ordinal = (Integer)(($d.getOrdinal() + $o.getOrdinal())/2);
+        modify ($m) { setChallengeRating(challengeRatingService.findByOrdinal(ordinal))};
 
 end

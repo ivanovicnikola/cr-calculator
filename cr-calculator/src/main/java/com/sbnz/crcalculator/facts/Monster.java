@@ -7,7 +7,6 @@ import org.kie.api.definition.type.PropertyReactive;
 
 @PropertyReactive
 public class Monster {
-	private String name;
 	private MonsterSize size;
 	private Ability strength;
 	private Ability dexterity;
@@ -15,23 +14,22 @@ public class Monster {
 	private Ability intelligence;
 	private Ability wisdom;
 	private Ability charisma;
-	private String challengeRating;
+	private ChallengeRating challengeRating;
 	private Integer proficiencyBonus;
 	private Integer armorClass;
 	private Integer numberOfHitDice;
 	private Die hitDie;
 	private List<Action> actions = new ArrayList<>();
-	private String offensiveChallengeRating;
-	private String defensiveChallengeRating;
+	private ChallengeRating offensiveChallengeRating;
+	private ChallengeRating defensiveChallengeRating;
 	
 	public Monster() { }
 
 	public Monster(String name, MonsterSize size, Ability strength, Ability dexterity, Ability constitution,
-			Ability intelligence, Ability wisdom, Ability charisma, String challengeRating, Integer proficiencyBonus,
+			Ability intelligence, Ability wisdom, Ability charisma, ChallengeRating challengeRating, Integer proficiencyBonus,
 			Integer armorClass, Integer numberOfHitDice, Die hitDie, List<Action> actions,
-			String offensiveChallengeRating, String defensiveChallengeRating) {
+			ChallengeRating offensiveChallengeRating, ChallengeRating defensiveChallengeRating) {
 		super();
-		this.name = name;
 		this.size = size;
 		this.strength = strength;
 		this.dexterity = dexterity;
@@ -47,14 +45,6 @@ public class Monster {
 		this.actions = actions;
 		this.offensiveChallengeRating = offensiveChallengeRating;
 		this.defensiveChallengeRating = defensiveChallengeRating;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public MonsterSize getSize() {
@@ -113,11 +103,11 @@ public class Monster {
 		this.charisma = charisma;
 	}
 
-	public String getChallengeRating() {
+	public ChallengeRating getChallengeRating() {
 		return challengeRating;
 	}
 
-	public void setChallengeRating(String challengeRating) {
+	public void setChallengeRating(ChallengeRating challengeRating) {
 		this.challengeRating = challengeRating;
 	}
 
@@ -165,19 +155,19 @@ public class Monster {
 		this.actions = actions;
 	}
 
-	public String getOffensiveChallengeRating() {
+	public ChallengeRating getOffensiveChallengeRating() {
 		return offensiveChallengeRating;
 	}
 
-	public void setOffensiveChallengeRating(String offensiveChallengeRating) {
+	public void setOffensiveChallengeRating(ChallengeRating offensiveChallengeRating) {
 		this.offensiveChallengeRating = offensiveChallengeRating;
 	}
 
-	public String getDefensiveChallengeRating() {
+	public ChallengeRating getDefensiveChallengeRating() {
 		return defensiveChallengeRating;
 	}
 
-	public void setDefensiveChallengeRating(String defensiveChallengeRating) {
+	public void setDefensiveChallengeRating(ChallengeRating defensiveChallengeRating) {
 		this.defensiveChallengeRating = defensiveChallengeRating;
 	}
 
