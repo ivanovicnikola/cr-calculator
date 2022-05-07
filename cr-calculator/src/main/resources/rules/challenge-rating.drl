@@ -1,17 +1,15 @@
 package rules
 
 import com.sbnz.crcalculator.facts.Monster;
-import com.sbnz.crcalculator.service.ChallengeRatingService;
-
-global ChallengeRatingService challengeRatingService;
+import com.sbnz.crcalculator.facts.ChallengeRating;
 
 rule "Determine challenge rating"
 
     when
         $m: Monster($d: defensiveChallengeRating != null, $o: offensiveChallengeRating != null)
+        $cr: ChallengeRating(ordinal == ($d.getOrdinal() + $o.getOrdinal())/2);
     then
     	System.out.println("Determine challenge rating fired");
-    	Integer ordinal = (Integer)(($d.getOrdinal() + $o.getOrdinal())/2);
-        modify ($m) { setChallengeRating(challengeRatingService.findByOrdinal(ordinal))};
+        modify ($m) { setChallengeRating($cr))};
 
 end

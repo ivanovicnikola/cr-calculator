@@ -6,9 +6,7 @@ averageRoll
 package templates
 
 import com.sbnz.crcalculator.facts.Monster;
-import com.sbnz.crcalculator.service.DieService;
-
-global DieService dieService;
+import com.sbnz.crcalculator.facts.Die;
 
 template "hit-dice-by-size"
 
@@ -16,9 +14,10 @@ template "hit-dice-by-size"
 	lock-on-active
 	    when
 	        $m: Monster("@{monsterSize}".equalsIgnoreCase(size.name()))
+	        $d: Die(name.equals("@{dieName}"))
 	    then
 	    	System.out.println("Determine hit dice for size @{monsterSize} fired");
-	        modify ($m) { setHitDie(dieService.findByName("@{dieName}")))};
+	        modify ($m) { setHitDie($d)};
 	end
 
 end template

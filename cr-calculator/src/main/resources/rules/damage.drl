@@ -7,12 +7,12 @@ import com.sbnz.crcalculator.facts.Attack;
 rule "Determine strength damage bonus"
 
     when
-        $m: Monster($actions: actions, $s: strength.abilityModifier != null)
+        $m: Monster($actions: actions, strength.abilityModifier != null)
         Action($attacks: attacks) from $actions
         $attack: Attack(relevantAbility.name().equalsIgnoreCase("STRENGTH"), damageBonus == null) from $attacks
     then
         System.out.println("Determine strength damage bonus fired");
-        $attack.setDamageBonus($s);
+        $attack.setDamageBonus($m.getStrength().getAbilityModifier());
         modify ($m) { setActions($actions) };
         
 end
@@ -20,12 +20,12 @@ end
 rule "Determine dexterity damage bonus"
 
     when
-        $m: Monster($actions: actions, $d: dexterity.abilityModifier != null)
+        $m: Monster($actions: actions, dexterity.abilityModifier != null)
         Action($attacks: attacks) from $actions
         $attack: Attack(relevantAbility.name().equalsIgnoreCase("DEXTERITY"), damageBonus == null) from $attacks
     then
         System.out.println("Determine dexterity damage bonus fired");
-        $attack.setDamageBonus($d);
+        $attack.setDamageBonus($m.getDexterity().getAbilityModifier());
         modify ($m) { setActions($actions) };
 
 end

@@ -18,6 +18,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
+import com.sbnz.crcalculator.facts.ChallengeRating;
+import com.sbnz.crcalculator.facts.Die;
 import com.sbnz.crcalculator.facts.Monster;
 
 @Service
@@ -35,9 +37,13 @@ public class MonsterServiceKie implements MonsterService {
 	@Override
 	public Monster getClassifiedMonster(Monster monster) {
 		KieSession kieSession = createKieSession();
-		kieSession.setGlobal("dieService", dieService);
-		kieSession.setGlobal("challengeRatingService", challengeRatingService);
 		kieSession.insert(monster);
+		for(Die die: dieService.findAll()) {
+			kieSession.insert(die);
+		}
+		for(ChallengeRating challengeRating: challengeRatingService.findAll()) {
+			kieSession.insert(challengeRating);
+		}
 		kieSession.fireAllRules();
 		kieSession.dispose();
 		return monster;

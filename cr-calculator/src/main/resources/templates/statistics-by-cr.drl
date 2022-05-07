@@ -14,10 +14,8 @@ package templates
 import com.sbnz.crcalculator.facts.Monster;
 import com.sbnz.crcalculator.facts.Action;
 import com.sbnz.crcalculator.facts.Attack;
-import com.sbnz.crcalculator.service.ChallengeRatingService;
+import com.sbnz.crcalculator.facts.ChallengeRating;
 import java.util.ArrayList;
-
-global ChallengeRatingService challengeRatingService;
 
 template "statistics-by-cr"
 
@@ -32,36 +30,27 @@ template "statistics-by-cr"
 	rule "Determine offensive challenge rating for damage @{minDamage}-@{maxDamage}"
 		when
 			$m: Monster($actions: actions, offensiveChallengeRating == null)
-			forall(Action() from $actions)
-			$attacks: ArrayList() from accumulate(
-				Action(
-					$as: attacks
-				) from $actions,
-				init(ArrayList list = new ArrayList();),
-				action(list.addAll($as);),
-				result(list)
-			)
-			forall(Attack(attackBonus != null, damageBonus != null) from $attacks)
+			forall(Action(processed) from $actions)
 			$n: Number(intValue >= @{minDamage}, intValue <= @{maxDamage}) from accumulate(
-				$action: Action(
-					averageDamage != null
-				) from $actions,
+				$action: Action() from $actions,
 				max($action.getAverageDamage())
 			)
 			$a: Action(averageDamage == $n.intValue()) from $actions
+			ChallengeRating(value.equals("@{challengeRating}"), $o: ordinal)
+			$cr: ChallengeRating(ordinal == $o + ($a.getMostCommonAttackBonus() - @{attackBonus})/2)
 		then
 			System.out.println("Determine offensive challenge rating for damage @{minDamage}-@{maxDamage} fired");
-			Integer ordinal = challengeRatingService.findByValue("@{challengeRating}").getOrdinal() + (Integer)(($a.getMostCommonAttackBonus() - @{attackBonus})/2);
-			modify ($m) {setOffensiveChallengeRating(challengeRatingService.findByOrdinal(ordinal))};
+			modify ($m) {setOffensiveChallengeRating($cr)};
 	end
 	
 	rule "Determine defensive challenge rating for hit points @{minHitPoints}-@{maxHitPoints}"
 		when
 			$m: Monster(constitution.abilityModifier != null, hitDie != null, averageHitPoints >= @{minHitPoints}, averageHitPoints <= @{maxHitPoints}, defensiveChallengeRating == null, $ac: armorClass)
+			ChallengeRating(value.equals("@{challengeRating}"), $o: ordinal)
+			$cr: ChallengeRating(ordinal == $o + ($ac - @{armorClass})/2)
 		then
 			System.out.println("Determine defensive challenge rating for hit points @{minHitPoints}-@{maxHitPoints} fired");
-			Integer ordinal = challengeRatingService.findByValue("@{challengeRating}").getOrdinal() + (Integer)(($ac - @{armorClass})/2);
-			modify ($m) {setDefensiveChallengeRating(challengeRatingService.findByOrdinal(ordinal))}
+			modify ($m) {setDefensiveChallengeRating($cr)}
 	end
 	
 end template
