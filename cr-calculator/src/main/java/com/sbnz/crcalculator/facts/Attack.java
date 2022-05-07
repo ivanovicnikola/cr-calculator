@@ -1,7 +1,6 @@
 package com.sbnz.crcalculator.facts;
 
 public class Attack {
-	private String name;
 	private Integer numberPerRound;
 	private Integer attackBonus;
 	private DamageUnit baseDamage;
@@ -13,20 +12,11 @@ public class Attack {
 	public Attack(String name, Integer numberPerRound, Integer attackBonus, DamageUnit baseDamage, Integer damageBonus,
 			AbilityName relevantAbility) {
 		super();
-		this.name = name;
 		this.numberPerRound = numberPerRound;
 		this.attackBonus = attackBonus;
 		this.baseDamage = baseDamage;
 		this.damageBonus = damageBonus;
 		this.relevantAbility = relevantAbility;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Integer getNumberPerRound() {

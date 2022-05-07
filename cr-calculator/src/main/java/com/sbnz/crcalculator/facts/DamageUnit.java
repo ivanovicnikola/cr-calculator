@@ -3,15 +3,13 @@ package com.sbnz.crcalculator.facts;
 public class DamageUnit {
 	private Integer numberOfDice;
 	private Die die;
-	private DamageType damageType;
 	
 	public DamageUnit() { }
 	
-	public DamageUnit(Integer numberOfDice, Die die, DamageType damageType) {
+	public DamageUnit(Integer numberOfDice, Die die) {
 		super();
 		this.numberOfDice = numberOfDice;
 		this.die = die;
-		this.damageType = damageType;
 	}
 
 	public Integer getNumberOfDice() {
@@ -28,14 +26,6 @@ public class DamageUnit {
 
 	public void setDie(Die die) {
 		this.die = die;
-	}
-
-	public DamageType getDamageType() {
-		return damageType;
-	}
-
-	public void setDamageType(DamageType damageType) {
-		this.damageType = damageType;
 	}
 	
 	public Integer getAverageValue() {
