@@ -6,122 +6,149 @@
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>CR Calculator</title>
-	<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous">
 	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-	<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-	integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-	crossorigin="anonymous"></script>
-	
-	<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-	integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-	crossorigin="anonymous"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 <body>
-	<div class="container-fluid">
+	<div class="container-fluid" id="monster">
 		<div class="row justify-content-center">
 			<div class="col-md-4">
-				<div class="mon-stat-block">
-					<div class="mon-stat-block__header">
-						<div class="mon-stat-block__name">CR Calculator</div>
-						<div class="mon-stat-block__meta">Size</div>
-						<div class="mon-stat-block__separator">
-							<img class="mon-stat-block__separator-img" alt src="images/stat-block-header-bar.svg">
-						</div>
-						<div class="mon-stat-block__attributes">
-							<div class="mon-stat-block__attribute">
-								<span class="mon-stat-block__attribute-label">Armor Class</span>
-								<span class="mon-stat-block__attribute-value">Armor Class</span>
-							</div>
-							<div class="mon-stat-block__attribute">
-								<span class="mon-stat-block__attribute-label">Number of hit dice</span>
-								<span class="mon-stat-block__attribute-value">Number of hit dice</span>
-							</div>
-						</div>
-						<div class="mon-stat-block__stat-block">
-							<div class="mon-stat-block__separator">
-								<img class="mon-stat-block__separator-img" alt src="images/stat-block-header-bar.svg">
-							</div>
-							<div class="ability-block">
-								<div class="ability-block__stat ability-block__stat--str">
-									<div class="ability-block__heading">STR</div>
-									<div class="ability-block__data">
-										<span class="ability-block__score">21</span>
-										<span class="ability-block__modifier">(+5)</span>
-									</div>
-								</div>
-								<div class="ability-block__stat ability-block__stat--dex">
-									<div class="ability-block__heading">DEX</div>
-									<div class="ability-block__data">
-										<span class="ability-block__score">21</span>
-										<span class="ability-block__modifier">(+5)</span>
-									</div>
-								</div>
-								<div class="ability-block__stat ability-block__stat--con">
-									<div class="ability-block__heading">CON</div>
-									<div class="ability-block__data">
-										<span class="ability-block__score">21</span>
-										<span class="ability-block__modifier">(+5)</span>
-									</div>
-								</div>
-								<div class="ability-block__stat ability-block__stat--int">
-									<div class="ability-block__heading">INT</div>
-									<div class="ability-block__data">
-										<span class="ability-block__score">21</span>
-										<span class="ability-block__modifier">(+5)</span>
-									</div>
-								</div>
-								<div class="ability-block__stat ability-block__stat--wis">
-									<div class="ability-block__heading">WIS</div>
-									<div class="ability-block__data">
-										<span class="ability-block__score">21</span>
-										<span class="ability-block__modifier">(+5)</span>
-									</div>
-								</div>
-								<div class="ability-block__stat ability-block__stat--cha">
-									<div class="ability-block__heading">CHA</div>
-									<div class="ability-block__data">
-										<span class="ability-block__score">21</span>
-										<span class="ability-block__modifier">(+5)</span>
-									</div>
-								</div>
+				<form @submit="submitMonster(monsterInput)">
+					<div class="mon-stat-block">
+						<div class="mon-stat-block__header">
+							<div class="mon-stat-block__name">CR Calculator</div>
+							<div class="mon-stat-block__meta">
+								Size
+								<select v-model="monsterInput.size" required>
+									<option value="TINY">Tiny</option>
+									<option value="SMALL">Small</option>
+									<option value="MEDIUM">Medium</option>
+									<option value="LARGE">Large</option>
+									<option value="HUGE">Huge</option>
+									<option value="GARGANTUAN">Gargantuan</option>
+								</select>
 							</div>
 							<div class="mon-stat-block__separator">
 								<img class="mon-stat-block__separator-img" alt src="images/stat-block-header-bar.svg">
 							</div>
-						</div>
-						<div class="mon-stat-block__tidbits">
-							<div class="mon-stat-block__tidbit-container">
-								<div class="mon-stat-block__tidbit">
-									<span class="mon-stat-block__tidbit-label">Challenge</span>
-									<span class="mon-stat-block__tidbit-data">Challenge</span>
+							<div class="mon-stat-block__attributes">
+								<div class="mon-stat-block__attribute">
+									<span class="mon-stat-block__attribute-label">Armor Class</span>
+									<span class="mon-stat-block__attribute-value">
+										<input type="number" min="1" max="25" v-model="monsterInput.armorClass" required>
+									</span>
 								</div>
-								<div class="mon-stat-block__tidbit-spacer"></div>
-								<div class="mon-stat-block__tidbit">
-									<span class="mon-stat-block__tidbit-label">Proficiency Bonus</span>
-									<span class="mon-stat-block__tidbit-data">Proficiency Bonus</span>
+								<div class="mon-stat-block__attribute">
+									<span class="mon-stat-block__attribute-label">Number of hit dice</span>
+									<span class="mon-stat-block__attribute-value">
+										<input type="number" min="1" max="35" v-model="monsterInput.numberOfHitDice" required>
+									</span>
+								</div>
+							</div>
+							<div class="mon-stat-block__stat-block">
+								<div class="mon-stat-block__separator">
+									<img class="mon-stat-block__separator-img" alt src="images/stat-block-header-bar.svg">
+								</div>
+								<div class="ability-block">
+									<div class="ability-block__stat ability-block__stat--str">
+										<div class="ability-block__heading">STR</div>
+										<div class="ability-block__data">
+											<span class="ability-block__score">
+												<input type="number" min="1" max="30" v-model="monsterInput.strength.abilityScore" required>
+											</span>
+											<span class="ability-block__modifier">( )</span>
+										</div>
+									</div>
+									<div class="ability-block__stat ability-block__stat--dex">
+										<div class="ability-block__heading">DEX</div>
+										<div class="ability-block__data">
+											<span class="ability-block__score">
+												<input type="number" min="1" max="30" v-model="monsterInput.dexterity.abilityScore" required>
+											</span>
+											<span class="ability-block__modifier">( )</span>
+										</div>
+									</div>
+									<div class="ability-block__stat ability-block__stat--con">
+										<div class="ability-block__heading">CON</div>
+										<div class="ability-block__data">
+											<span class="ability-block__score">
+												<input type="number" min="1" max="30" v-model="monsterInput.constitution.abilityScore" required>
+											</span>
+											<span class="ability-block__modifier">( )</span>
+										</div>
+									</div>
+									<div class="ability-block__stat ability-block__stat--int">
+										<div class="ability-block__heading">INT</div>
+										<div class="ability-block__data">
+											<span class="ability-block__score">
+												<input type="number" min="1" max="30" v-model="monsterInput.intelligence.abilityScore" required>
+											</span>
+											<span class="ability-block__modifier">( )</span>
+										</div>
+									</div>
+									<div class="ability-block__stat ability-block__stat--wis">
+										<div class="ability-block__heading">WIS</div>
+										<div class="ability-block__data">
+											<span class="ability-block__score">
+												<input type="number" min="1" max="30" v-model="monsterInput.wisdom.abilityScore" required>
+											</span>
+											<span class="ability-block__modifier">( )</span>
+										</div>
+									</div>
+									<div class="ability-block__stat ability-block__stat--cha">
+										<div class="ability-block__heading">CHA</div>
+										<div class="ability-block__data">
+											<span class="ability-block__score">
+												<input type="number" min="1" max="30" v-model="monsterInput.charisma.abilityScore" required>
+											</span>
+											<span class="ability-block__modifier">( )</span>
+										</div>
+									</div>
+								</div>
+								<div class="mon-stat-block__separator">
+									<img class="mon-stat-block__separator-img" alt src="images/stat-block-header-bar.svg">
+								</div>
+							</div>
+							<div class="mon-stat-block__tidbits">
+								<div class="mon-stat-block__tidbit-container">
+									<div class="mon-stat-block__tidbit">
+										<span class="mon-stat-block__tidbit-label">Challenge</span>
+										<span class="mon-stat-block__tidbit-data">
+											<select v-model="monsterInput.challengeRating" required>
+												<option v-for="challengeRating in challengeRatings">{{challengeRating.value}} ({{challengeRating.experiencePoints}} XP)</option>
+											</select>
+										</span>
+									</div>
+									<div class="mon-stat-block__tidbit-spacer"></div>
+									<div class="mon-stat-block__tidbit">
+										<span class="mon-stat-block__tidbit-label">Proficiency Bonus</span>
+										<span class="mon-stat-block__tidbit-data">-</span>
+									</div>
+								</div>
+							</div>
+							<div class="mon-stat-block__separator">
+								<img class="mon-stat-block__separator-img" alt src="images/stat-block-header-bar.svg">
+							</div>
+							<div class="mon-stat-block__description-blocks">
+								<div class="mon-stat-block__description-block">
+									<div class="mon-stat-block__description-block-heading">Actions</div>
+									<div class="mon-stat-block__description-block-content">...</div>
 								</div>
 							</div>
 						</div>
-						<div class="mon-stat-block__separator">
-							<img class="mon-stat-block__separator-img" alt src="images/stat-block-header-bar.svg">
-						</div>
-						<div class="mon-stat-block__description-blocks">
-							<div class="mon-stat-block__description-block">
-								<div class="mon-stat-block__description-block-heading">Actions</div>
-								<div class="mon-stat-block__description-block-content">Actions</div>
-							</div>
+						<div>
+							<button type="submit">Calculate</button>
 						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>
+	
+	<script src="js/vue.js"></script>
+	<script src="js/axios.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="app/app.js"></script>
 </body>
 </html>
