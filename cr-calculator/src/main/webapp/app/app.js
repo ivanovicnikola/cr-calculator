@@ -30,12 +30,16 @@ var app = new Vue({
 		    },
 		    actions: []
 		},
-		challengeRatings: []
+		challengeRatings: [],
+		dice: []
 	},
 	mounted () {
 		axios
 			.get('dice')
-			.then(response => console.log(response.data));
+			.then(response => {
+				this.dice = response.data;
+				console.log(this.dice);
+			});
 		
 		axios
 			.get('challengeRatings')
@@ -48,6 +52,27 @@ var app = new Vue({
 		submitMonster: function(monsterInput) {
 			event.preventDefault();
 			console.log(monsterInput);
+			axios
+				.post('monsters', monsterInput)
+				.then(response => console.log(response.data));
+		},
+		addAction: function() {
+			this.monsterInput.actions.push({
+				attacks: []
+			});
+		},
+		addAttack: function(action) {
+			action.attacks.push({
+				numberPerRound: null,
+				relevantAbility: null,
+				baseDamage: {
+					die: {
+						name: null,
+						averageRoll: null
+					},
+					numberOfDice: null
+				}
+			});
 		}
 	}
 });

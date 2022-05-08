@@ -19,7 +19,7 @@
 						<div class="mon-stat-block__header">
 							<div class="mon-stat-block__name">CR Calculator</div>
 							<div class="mon-stat-block__meta">
-								Size
+								<span>Size</span>
 								<select v-model="monsterInput.size" required>
 									<option value="TINY">Tiny</option>
 									<option value="SMALL">Small</option>
@@ -36,13 +36,13 @@
 								<div class="mon-stat-block__attribute">
 									<span class="mon-stat-block__attribute-label">Armor Class</span>
 									<span class="mon-stat-block__attribute-value">
-										<input type="number" min="1" max="25" v-model="monsterInput.armorClass" required>
+										<input type="number" min="1" max="25" v-model.number="monsterInput.armorClass" required>
 									</span>
 								</div>
 								<div class="mon-stat-block__attribute">
 									<span class="mon-stat-block__attribute-label">Number of hit dice</span>
 									<span class="mon-stat-block__attribute-value">
-										<input type="number" min="1" max="35" v-model="monsterInput.numberOfHitDice" required>
+										<input type="number" min="1" max="35" v-model.number="monsterInput.numberOfHitDice" required>
 									</span>
 								</div>
 							</div>
@@ -55,7 +55,7 @@
 										<div class="ability-block__heading">STR</div>
 										<div class="ability-block__data">
 											<span class="ability-block__score">
-												<input type="number" min="1" max="30" v-model="monsterInput.strength.abilityScore" required>
+												<input type="number" min="1" max="30" v-model.number="monsterInput.strength.abilityScore" required>
 											</span>
 											<span class="ability-block__modifier">( )</span>
 										</div>
@@ -64,7 +64,7 @@
 										<div class="ability-block__heading">DEX</div>
 										<div class="ability-block__data">
 											<span class="ability-block__score">
-												<input type="number" min="1" max="30" v-model="monsterInput.dexterity.abilityScore" required>
+												<input type="number" min="1" max="30" v-model.number="monsterInput.dexterity.abilityScore" required>
 											</span>
 											<span class="ability-block__modifier">( )</span>
 										</div>
@@ -73,7 +73,7 @@
 										<div class="ability-block__heading">CON</div>
 										<div class="ability-block__data">
 											<span class="ability-block__score">
-												<input type="number" min="1" max="30" v-model="monsterInput.constitution.abilityScore" required>
+												<input type="number" min="1" max="30" v-model.number="monsterInput.constitution.abilityScore" required>
 											</span>
 											<span class="ability-block__modifier">( )</span>
 										</div>
@@ -82,7 +82,7 @@
 										<div class="ability-block__heading">INT</div>
 										<div class="ability-block__data">
 											<span class="ability-block__score">
-												<input type="number" min="1" max="30" v-model="monsterInput.intelligence.abilityScore" required>
+												<input type="number" min="1" max="30" v-model.number="monsterInput.intelligence.abilityScore" required>
 											</span>
 											<span class="ability-block__modifier">( )</span>
 										</div>
@@ -91,7 +91,7 @@
 										<div class="ability-block__heading">WIS</div>
 										<div class="ability-block__data">
 											<span class="ability-block__score">
-												<input type="number" min="1" max="30" v-model="monsterInput.wisdom.abilityScore" required>
+												<input type="number" min="1" max="30" v-model.number="monsterInput.wisdom.abilityScore" required>
 											</span>
 											<span class="ability-block__modifier">( )</span>
 										</div>
@@ -100,7 +100,7 @@
 										<div class="ability-block__heading">CHA</div>
 										<div class="ability-block__data">
 											<span class="ability-block__score">
-												<input type="number" min="1" max="30" v-model="monsterInput.charisma.abilityScore" required>
+												<input type="number" min="1" max="30" v-model.number="monsterInput.charisma.abilityScore" required>
 											</span>
 											<span class="ability-block__modifier">( )</span>
 										</div>
@@ -116,7 +116,7 @@
 										<span class="mon-stat-block__tidbit-label">Challenge</span>
 										<span class="mon-stat-block__tidbit-data">
 											<select v-model="monsterInput.challengeRating" required>
-												<option v-for="challengeRating in challengeRatings">{{challengeRating.value}} ({{challengeRating.experiencePoints}} XP)</option>
+												<option v-for="challengeRating in challengeRatings" v-bind:value="challengeRating">{{challengeRating.value}} ({{challengeRating.experiencePoints}} XP)</option>
 											</select>
 										</span>
 									</div>
@@ -133,7 +133,27 @@
 							<div class="mon-stat-block__description-blocks">
 								<div class="mon-stat-block__description-block">
 									<div class="mon-stat-block__description-block-heading">Actions</div>
-									<div class="mon-stat-block__description-block-content">...</div>
+									<div class="mon-stat-block__description-block-content">
+										<button type="button" @click="addAction()">Add Action</button>
+										<div v-for="action in monsterInput.actions">
+											<button type="button" @click="addAttack(action)">Add Attack</button>
+											<div v-for="attack in action.attacks">
+												<label>Number per Round</label>
+												<input type="number" min="1" max="5" v-model.number="attack.numberPerRound" required>
+												<label>Ability</label>
+												<select v-model="attack.relevantAbility" required>
+													<option value="STRENGTH">Strength</option>
+													<option value="DEXTERITY">Dexterity</option>
+												</select>
+												<label>Die</label>
+												<select v-model="attack.baseDamage.die" required>
+													<option v-for="die in dice" v-bind:value="die">{{die.name}}</option>
+												</select>
+												<label>Number of Dice</label>
+												<input type="number" min="1" max="4" v-model.number="attack.baseDamage.numberOfDice" required>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
