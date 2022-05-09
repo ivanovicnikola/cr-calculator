@@ -11,9 +11,8 @@ import com.sbnz.crcalculator.facts.Die;
 template "hit-dice-by-size"
 
 	rule "Determine hit dice for size @{monsterSize}"
-	lock-on-active
 	    when
-	        $m: Monster("@{monsterSize}".equalsIgnoreCase(size.name()))
+	        $m: Monster("@{monsterSize}".equalsIgnoreCase(size.name()), hitDie == null)
 	        $d: Die(name.equals("@{dieName}"))
 	    then
 	    	System.out.println("Determine hit dice for size @{monsterSize} fired");
