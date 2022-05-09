@@ -31,7 +31,41 @@ var app = new Vue({
 		    actions: []
 		},
 		challengeRatings: [],
-		dice: []
+		dice: [],
+		monsterResult: {
+		    armorClass: null,
+		    strength: {
+		        abilityScore: null
+		    },
+		    dexterity: {
+		        abilityScore: null
+		    },
+		    constitution: {
+		        abilityScore: null
+		    },
+		    intelligence: {
+		        abilityScore: null
+		    },
+		    wisdom: {
+		        abilityScore: null
+		    },
+		    charisma: {
+		        abilityScore: null
+		    },
+		    numberOfHitDice: null,
+		    hitDie: {
+		    	name: null,
+		    	averageRoll: null
+		    },
+		    size: null,
+		    challengeRating: {
+		        ordinal: null,
+		        value:null,
+		        experiencePoints: null
+		    },
+		    actions: []
+		},
+	    displayResult: false
 	},
 	mounted () {
 		axios
@@ -54,7 +88,11 @@ var app = new Vue({
 			console.log(monsterInput);
 			axios
 				.post('monsters', monsterInput)
-				.then(response => console.log(response.data));
+				.then(response => {
+					this.monsterResult = response.data;
+					this.displayResult = true;
+					console.log(this.monsterResult);
+				});
 		},
 		addAction: function() {
 			this.monsterInput.actions.push({
@@ -73,6 +111,15 @@ var app = new Vue({
 					numberOfDice: null
 				}
 			});
+		},
+		removeAction: function(index) {
+			this.monsterInput.actions.splice(index, 1);
+		},
+		removeAttack: function(action, index) {
+			action.attacks.splice(index, 1);
+		},
+		bonusString: function(bonus) {
+			return (bonus>0)?"+" + bonus: bonus;
 		}
 	}
 });

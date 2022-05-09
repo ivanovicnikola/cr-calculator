@@ -42,10 +42,14 @@
 									</span>
 								</div>
 								<div class="mon-stat-block__attribute">
-									<span class="mon-stat-block__attribute-label">Number of hit dice</span>
+									<span class="mon-stat-block__attribute-label">Number of Hit Dice</span>
 									<span class="mon-stat-block__attribute-value">
 										<input type="number" min="1" max="35" v-model.number="monsterInput.numberOfHitDice" required>
 									</span>
+								</div>
+								<div class="mon-stat-block__attribute" v-if="displayResult">
+									<span class="mon-stat-block__attribute-label">Hit Points</span>
+									<span class="mon-stat-block__attribute-value">{{monsterResult.averageHitPoints}} ({{monsterResult.numberOfHitDice}}{{monsterResult.hitDie.name}} + {{monsterResult.constitution.abilityModifier * monsterResult.numberOfHitDice}})</span>
 								</div>
 							</div>
 							<div class="mon-stat-block__stat-block">
@@ -59,7 +63,7 @@
 											<span class="ability-block__score">
 												<input type="number" min="1" max="30" v-model.number="monsterInput.strength.abilityScore" required>
 											</span>
-											<span class="ability-block__modifier">( )</span>
+											<span v-if="displayResult" class="ability-block__modifier">({{bonusString(monsterResult.strength.abilityModifier)}})</span>
 										</div>
 									</div>
 									<div class="ability-block__stat ability-block__stat--dex">
@@ -68,7 +72,7 @@
 											<span class="ability-block__score">
 												<input type="number" min="1" max="30" v-model.number="monsterInput.dexterity.abilityScore" required>
 											</span>
-											<span class="ability-block__modifier">( )</span>
+											<span v-if="displayResult" class="ability-block__modifier">({{bonusString(monsterResult.dexterity.abilityModifier)}})</span>
 										</div>
 									</div>
 									<div class="ability-block__stat ability-block__stat--con">
@@ -77,7 +81,7 @@
 											<span class="ability-block__score">
 												<input type="number" min="1" max="30" v-model.number="monsterInput.constitution.abilityScore" required>
 											</span>
-											<span class="ability-block__modifier">( )</span>
+											<span v-if="displayResult" class="ability-block__modifier">({{bonusString(monsterResult.constitution.abilityModifier)}})</span>
 										</div>
 									</div>
 									<div class="ability-block__stat ability-block__stat--int">
@@ -86,7 +90,7 @@
 											<span class="ability-block__score">
 												<input type="number" min="1" max="30" v-model.number="monsterInput.intelligence.abilityScore" required>
 											</span>
-											<span class="ability-block__modifier">( )</span>
+											<span v-if="displayResult" class="ability-block__modifier">({{bonusString(monsterResult.intelligence.abilityModifier)}})</span>
 										</div>
 									</div>
 									<div class="ability-block__stat ability-block__stat--wis">
@@ -95,7 +99,7 @@
 											<span class="ability-block__score">
 												<input type="number" min="1" max="30" v-model.number="monsterInput.wisdom.abilityScore" required>
 											</span>
-											<span class="ability-block__modifier">( )</span>
+											<span v-if="displayResult" class="ability-block__modifier">({{bonusString(monsterResult.wisdom.abilityModifier)}})</span>
 										</div>
 									</div>
 									<div class="ability-block__stat ability-block__stat--cha">
@@ -104,7 +108,7 @@
 											<span class="ability-block__score">
 												<input type="number" min="1" max="30" v-model.number="monsterInput.charisma.abilityScore" required>
 											</span>
-											<span class="ability-block__modifier">( )</span>
+											<span v-if="displayResult" class="ability-block__modifier">({{bonusString(monsterResult.charisma.abilityModifier)}})</span>
 										</div>
 									</div>
 								</div>
@@ -113,19 +117,23 @@
 								</div>
 							</div>
 							<div class="mon-stat-block__tidbits">
-								<div class="mon-stat-block__tidbit-container">
+								<div class="mon-stat-block__tidbit">
+									<span class="mon-stat-block__tidbit-label">Challenge (Expected)</span>
+									<span class="mon-stat-block__tidbit-data">
+										<select v-model="monsterInput.challengeRating" required>
+											<option v-for="challengeRating in challengeRatings" v-bind:value="challengeRating">{{challengeRating.value}} ({{challengeRating.experiencePoints}} XP)</option>
+										</select>
+									</span>
+								</div>
+								<div v-if="displayResult" class="mon-stat-block__tidbit-container">
 									<div class="mon-stat-block__tidbit">
-										<span class="mon-stat-block__tidbit-label">Challenge</span>
-										<span class="mon-stat-block__tidbit-data">
-											<select v-model="monsterInput.challengeRating" required>
-												<option v-for="challengeRating in challengeRatings" v-bind:value="challengeRating">{{challengeRating.value}} ({{challengeRating.experiencePoints}} XP)</option>
-											</select>
-										</span>
+										<span class="mon-stat-block__tidbit-label">Challenge (Calculated)</span>
+										<span class="mon-stat-block__tidbit-data">{{monsterResult.challengeRating.value}} ({{monsterResult.challengeRating.experiencePoints}} XP)</span>
 									</div>
 									<div class="mon-stat-block__tidbit-spacer"></div>
 									<div class="mon-stat-block__tidbit">
 										<span class="mon-stat-block__tidbit-label">Proficiency Bonus</span>
-										<span class="mon-stat-block__tidbit-data">-</span>
+										<span class="mon-stat-block__tidbit-data">{{bonusString(monsterResult.proficiencyBonus)}}</span>
 									</div>
 								</div>
 							</div>
@@ -138,11 +146,13 @@
 									<div class="mon-stat-block__description-block-content">
 										<button type="button" @click="addAction()" class="btn btn-danger btn-sm mb-2"><i class="bi bi-plus-lg"></i></button>
 										<ul class="list-group bg-transparent">
-											<li v-for="action in monsterInput.actions" class="list-group-item bg-transparent">
+											<li v-for="(action, actionIndex) in monsterInput.actions" class="list-group-item bg-transparent">
+												</span><a class="delete link-secondary" @click="removeAction(actionIndex)"><i class="bi bi-x-lg"></i></a>
 												<div class="attacks-heading">Attacks</div>
 												<button type="button" @click="addAttack(action)" class="btn btn-danger btn-sm mb-2"><i class="bi bi-plus-lg"></i></button>
 												<ul class="list-group bg-transparent">
-													<li v-for="attack in action.attacks" class="list-group-item bg-transparent">
+													<li v-for="(attack, attackIndex) in action.attacks" class="list-group-item bg-transparent">
+														</span><a class="delete link-secondary" @click="removeAttack(action, attackIndex)"><i class="bi bi-x-lg"></i></a>
 														<div class="form-group mb-2">
 															<em>
 																<strong>Number per Round</strong>
