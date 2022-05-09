@@ -49,7 +49,7 @@
 								</div>
 								<div class="mon-stat-block__attribute" v-if="displayResult">
 									<span class="mon-stat-block__attribute-label">Hit Points</span>
-									<span class="mon-stat-block__attribute-value">{{monsterResult.averageHitPoints}} ({{monsterResult.numberOfHitDice}}{{monsterResult.hitDie.name}} + {{monsterResult.constitution.abilityModifier * monsterResult.numberOfHitDice}})</span>
+									<span class="mon-stat-block__attribute-value">{{monsterResult.averageHitPoints}} ({{monsterResult.numberOfHitDice}}{{monsterResult.hitDie.name}} + {{monsterResult.hitPointBonus}})</span>
 								</div>
 							</div>
 							<div class="mon-stat-block__stat-block">
@@ -177,6 +177,7 @@
 																<option v-for="die in dice" v-bind:value="die">{{die.name}}</option>
 															</select>
 														</div>
+														<span v-if="displayResult">{{attackString(actionIndex, attackIndex)}}</span>
 													</li>
 												</ul>
 											</li>

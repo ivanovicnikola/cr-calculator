@@ -120,6 +120,10 @@ var app = new Vue({
 		},
 		bonusString: function(bonus) {
 			return (bonus>0)?"+" + bonus: bonus;
+		},
+		attackString: function(actionIndex, attackIndex) {
+			let attack = this.monsterResult.actions[actionIndex].attacks[attackIndex];
+			return attack.numberPerRound + ((attack.numberPerRound == 1)?" attack":" attacks") + ": " + this.bonusString(attack.attackBonus) + " to hit. Hit: " + (attack.baseDamage.averageValue + attack.damageBonus) + " (" + attack.baseDamage.numberOfDice + attack.baseDamage.die.name + this.bonusString(attack.damageBonus) + ") damage.";
 		}
 	}
 });

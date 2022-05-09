@@ -143,8 +143,12 @@ public class Monster {
 		this.hitDie = hitDie;
 	}
 
+	public Integer getHitPointBonus() {
+		return constitution.getAbilityModifier() * numberOfHitDice;
+	}
+	
 	public Integer getAverageHitPoints() {
-		return (int) (numberOfHitDice * (hitDie.getAverageRoll() + constitution.getAbilityModifier()));
+		return (int) (numberOfHitDice * hitDie.getAverageRoll() + getHitPointBonus());
 	}
 
 	public List<Action> getActions() {

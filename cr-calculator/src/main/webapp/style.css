@@ -42,6 +42,11 @@
     src: url('font/MrsEavesSmallCaps.ttf');
 }
 
+@font-face {
+    font-family: "Scala Sans Offc";
+    src: url('font/ScalaSansOffc.ttf');
+}
+
 .mon-stat-block__name {
     font-weight: bold;
     font-size: 34px;
