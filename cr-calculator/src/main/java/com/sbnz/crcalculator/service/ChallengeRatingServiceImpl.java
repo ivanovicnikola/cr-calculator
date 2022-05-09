@@ -15,17 +15,8 @@ public class ChallengeRatingServiceImpl implements ChallengeRatingService {
 	private ChallengeRatingRepository challengeRatingRepository;
 
 	@Override
-	public ChallengeRating findByOrdinal(Integer ordinal) {
-		return challengeRatingRepository.findByOrdinal(ordinal);
-	}
-
-	@Override
 	public Collection<ChallengeRating> findAll() {
 		return challengeRatingRepository.findAll();
 	}
 
-	@Override
-	public ChallengeRating findByValue(String value) {
-		return challengeRatingRepository.findByValue(value);
-	}
 }

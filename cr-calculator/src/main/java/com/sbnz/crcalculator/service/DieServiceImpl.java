@@ -13,11 +13,6 @@ public class DieServiceImpl implements DieService{
 
 	@Autowired
 	private DieRepository dieRepository;
-	
-	@Override
-	public Die findByName(String name) {
-		return dieRepository.findByName(name);
-	}
 
 	@Override
 	public Collection<Die> findAll() {
