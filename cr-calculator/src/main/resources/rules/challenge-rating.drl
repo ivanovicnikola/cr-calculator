@@ -4,7 +4,7 @@ import com.sbnz.crcalculator.facts.Monster;
 import com.sbnz.crcalculator.facts.ChallengeRating;
 
 rule "Determine challenge rating"
-
+agenda-group "recalculate"
     when
         $m: Monster($d: defensiveChallengeRating != null, $o: offensiveChallengeRating != null)
         $cr: ChallengeRating(ordinal == ($d.getOrdinal() + $o.getOrdinal())/2);

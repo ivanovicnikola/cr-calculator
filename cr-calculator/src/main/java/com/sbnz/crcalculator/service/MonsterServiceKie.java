@@ -45,6 +45,8 @@ public class MonsterServiceKie implements MonsterService {
 			kieSession.insert(challengeRating);
 		}
 		kieSession.fireAllRules();
+		kieSession.getAgenda().getAgendaGroup("recalculate").setFocus();
+		kieSession.fireAllRules();
 		kieSession.dispose();
 		return monster;
 	}

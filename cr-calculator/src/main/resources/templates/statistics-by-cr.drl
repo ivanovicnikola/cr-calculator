@@ -28,9 +28,9 @@ template "statistics-by-cr"
 	end
 
 	rule "Determine offensive challenge rating for damage @{minDamage}-@{maxDamage}"
+	agenda-group "recalculate"
 		when
 			$m: Monster($actions: actions, offensiveChallengeRating == null)
-			forall(Action(processed) from $actions)
 			$n: Number(intValue >= @{minDamage}, intValue <= @{maxDamage}) from accumulate(
 				$action: Action() from $actions,
 				max($action.getAverageDamage())
@@ -44,6 +44,7 @@ template "statistics-by-cr"
 	end
 	
 	rule "Determine defensive challenge rating for hit points @{minHitPoints}-@{maxHitPoints}"
+	agenda-group "recalculate"
 		when
 			$m: Monster(constitution.abilityModifier != null, hitDie != null, averageHitPoints >= @{minHitPoints}, averageHitPoints <= @{maxHitPoints}, defensiveChallengeRating == null, $ac: armorClass)
 			ChallengeRating(value.equals("@{challengeRating}"), $o: ordinal)

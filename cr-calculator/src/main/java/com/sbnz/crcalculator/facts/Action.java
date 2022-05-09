@@ -9,14 +9,12 @@ import java.util.stream.Collectors;
 
 public class Action {
 	private List<Attack> attacks = new ArrayList<>();
-	private boolean processed;
 	
 	public Action() { }
 
-	public Action(List<Attack> attacks, boolean processed) {
+	public Action(List<Attack> attacks) {
 		super();
 		this.attacks = attacks;
-		this.processed = processed;
 	}
 
 	public List<Attack> getAttacks() {
@@ -25,14 +23,6 @@ public class Action {
 
 	public void setAttacks(List<Attack> attacks) {
 		this.attacks = attacks;
-	}
-	
-	public boolean isProcessed() {
-		return processed;
-	}
-
-	public void setProcessed(boolean processed) {
-		this.processed = processed;
 	}
 
 	public Integer getAverageDamage() {
