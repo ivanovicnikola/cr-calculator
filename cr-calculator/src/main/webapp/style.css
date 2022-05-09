@@ -136,3 +136,22 @@
     margin-top: 20px;
     margin-bottom: 15px;
 }
+
+.attacks-heading {
+	border-bottom: 1px solid #822000;
+    color: #822000;
+    font-size: 20px;
+    font-weight: normal;
+    font-family: "Scala Sans Offc",Roboto,Helvetica,sans-serif;
+    line-height: 1.4;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+em {
+    font-style: italic;
+}
+
+b, strong {
+    font-weight: bold;
+}
