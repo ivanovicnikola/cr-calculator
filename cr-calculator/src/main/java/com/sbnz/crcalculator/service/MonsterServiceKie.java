@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.drools.decisiontable.ExternalSpreadsheetCompiler;
+import org.kie.api.KieBase;
 import org.kie.api.builder.Message;
 import org.kie.api.builder.Results;
 import org.kie.api.io.ResourceType;
@@ -36,7 +37,9 @@ public class MonsterServiceKie implements MonsterService {
 	
 	@Override
 	public Monster getClassifiedMonster(Monster monster) {
-		KieSession kieSession = createKieSession();
+		//KieSession kieSession = createKieSession();
+		KieBase kieBase = kieContainer.getKieBase("ExampleKBase");
+		KieSession kieSession = kieBase.newKieSession();
 		kieSession.insert(monster);
 		for(Die die: dieService.findAll()) {
 			kieSession.insert(die);
