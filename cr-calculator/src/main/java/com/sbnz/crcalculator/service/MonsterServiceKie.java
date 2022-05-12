@@ -55,24 +55,24 @@ public class MonsterServiceKie implements MonsterService {
 	}
 	
 	private String getStatisticsByCrRules() {
-		InputStream template = MonsterServiceKie.class.getResourceAsStream("/templates/statistics-by-cr.drl");
-		InputStream data = MonsterServiceKie.class.getResourceAsStream("/templates/statistics-by-cr.xlsx");
+		InputStream template = MonsterServiceKie.class.getResourceAsStream("/templates/statistics-by-cr.drt");
+		InputStream data = MonsterServiceKie.class.getResourceAsStream("/templates/statistics-by-cr.xls");
 		ExternalSpreadsheetCompiler converter = new ExternalSpreadsheetCompiler();
 		String drl = converter.compile(data, template, 3, 2);
 		return drl;
 	}
 	
 	private String getAbilityModifierRules() {
-		InputStream template = MonsterServiceKie.class.getResourceAsStream("/templates/ability-modifiers.drl");
-		InputStream data = MonsterServiceKie.class.getResourceAsStream("/templates/ability-modifiers.xlsx");
+		InputStream template = MonsterServiceKie.class.getResourceAsStream("/templates/ability-modifiers.drt");
+		InputStream data = MonsterServiceKie.class.getResourceAsStream("/templates/ability-modifiers.xls");
 		ExternalSpreadsheetCompiler converter = new ExternalSpreadsheetCompiler();
 		String drl = converter.compile(data, template, 3, 2);
 		return drl;
 	}
 	
 	private String getHitDiceBySizeRules() {
-		InputStream template = MonsterServiceKie.class.getResourceAsStream("/templates/hit-dice-by-size.drl");
-		InputStream data = MonsterServiceKie.class.getResourceAsStream("/templates/hit-dice-by-size.xlsx");
+		InputStream template = MonsterServiceKie.class.getResourceAsStream("/templates/hit-dice-by-size.drt");
+		InputStream data = MonsterServiceKie.class.getResourceAsStream("/templates/hit-dice-by-size.xls");
 		ExternalSpreadsheetCompiler converter = new ExternalSpreadsheetCompiler();
 		String drl = converter.compile(data, template, 3, 2);
 		return drl;
