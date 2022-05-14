@@ -2,7 +2,7 @@
 <kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <kbase name="ExampleKBase" packages="rules, templates">
+    <kbase name="ExampleKBase" eventProcessingMode="stream" packages="rules, templates">
     	<ruleTemplate dtable="templates/ability-modifiers.xls"
                       template="templates/ability-modifiers.drt"
                       row="3" col="2"/>

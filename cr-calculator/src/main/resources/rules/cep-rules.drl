@@ -1,0 +1,14 @@
+package rules
+
+import com.sbnz.crcalculator.events.CalculationEvent;
+
+rule "Test rule"
+	when
+		 Number(intValue >= 3) from accumulate(
+		 	$c: CalculationEvent()
+		 	over window:length(3),
+		 	count($c)
+		 )
+	then
+		System.out.println("CEP Working!");
+end

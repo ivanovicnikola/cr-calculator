@@ -4,13 +4,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.drools.core.ClockType;
 import org.drools.decisiontable.ExternalSpreadsheetCompiler;
 import org.kie.api.KieBase;
+import org.kie.api.KieBaseConfiguration;
+import org.kie.api.KieServices;
 import org.kie.api.builder.Message;
 import org.kie.api.builder.Results;
+import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.conf.ClockTypeOption;
 import org.kie.internal.io.ResourceFactory;
 import org.kie.internal.utils.KieHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +24,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
+import com.sbnz.crcalculator.events.CalculationEvent;
+import com.sbnz.crcalculator.events.CalculationEventSessionStorage;
 import com.sbnz.crcalculator.facts.ChallengeRating;
 import com.sbnz.crcalculator.facts.Die;
 import com.sbnz.crcalculator.facts.Monster;
@@ -35,6 +42,9 @@ public class MonsterServiceKie implements MonsterService {
 	@Autowired
 	private ChallengeRatingService challengeRatingService;
 	
+	@Autowired
+	private CalculationEventSessionStorage eventStorage;
+	
 	@Override
 	public Monster getClassifiedMonster(Monster monster) {
 		KieSession kieSession = createKieSession();
@@ -47,10 +57,14 @@ public class MonsterServiceKie implements MonsterService {
 		for(ChallengeRating challengeRating: challengeRatingService.findAll()) {
 			kieSession.insert(challengeRating);
 		}
+		for(CalculationEvent event: eventStorage.getEvents()) {
+			kieSession.insert(event);
+		}
 		kieSession.fireAllRules();
 		kieSession.getAgenda().getAgendaGroup("recalculate").setFocus();
 		kieSession.fireAllRules();
 		kieSession.dispose();
+		eventStorage.getEvents().add(new CalculationEvent(monster));
 		return monster;
 	}
 	
@@ -107,7 +121,13 @@ public class MonsterServiceKie implements MonsterService {
             throw new IllegalStateException("Compilation errors were found. Check the logs.");
         }
         
-        return kieHelper.build().newKieSession();
+        KieServices ks = KieServices.Factory.get();
+        KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
+        kbconf.setOption(EventProcessingOption.STREAM);
+        
+        KieBase kieBase = kieHelper.build(kbconf);
+        
+        return kieBase.newKieSession();
 	}
 	
 	private static KieHelper getResourceFolderFiles (KieHelper kieHelper) throws IOException {  
