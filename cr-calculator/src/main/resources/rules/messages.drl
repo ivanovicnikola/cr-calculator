@@ -105,7 +105,7 @@ rule "Attack bonus too small for expected challenge rating"
 			Action($ab: mostCommonAttackBonus, $attacks: attacks) from $actions
 			$attack: Attack(attackBonus == $ab, attackBonus < $m.getExpectedChallengeRating.getAttackBonus(), attackBonusMessage == null) from $attacks
 		then
-			$attack.setAttackBonusMessage("Attack bonus is too great for expected challenge rating " + $m.getExpectedChallengeRating().getValue() + ". Consider reducing " + $attack.getRelevantAbility().name().toLowerCase() + ".");
+			$attack.setAttackBonusMessage("Attack bonus is too small for expected challenge rating " + $m.getExpectedChallengeRating().getValue() + ". Consider increasing " + $attack.getRelevantAbility().name().toLowerCase() + ".");
 			modify ($m) {setActions($actions)};
 			System.out.println("Attack bonus too small for expected challenge rating fired");
 end
