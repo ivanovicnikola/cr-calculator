@@ -48,9 +48,8 @@ public class MonsterServiceKie implements MonsterService {
 	@Override
 	public Monster getClassifiedMonster(Monster monster) {
 		monster.setExpectedChallengeRating(monster.getChallengeRating());
+		//KieSession kieSession = kieContainer.newKieSession("ExampleSession");
 		KieSession kieSession = createKieSession();
-		//KieBase kieBase = kieContainer.getKieBase("ExampleKBase");
-		//KieSession kieSession = kieBase.newKieSession();
 		kieSession.insert(monster);
 		for(Die die: dieService.findAll()) {
 			kieSession.insert(die);

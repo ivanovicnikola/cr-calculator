@@ -25,7 +25,7 @@ rule "Armor class too great for expected challenge rating"
 			ThreeConsecutiveMiscalculations()
 			$m: Monster(challengeRating.ordinal > expectedChallengeRating.ordinal, defensiveChallengeRating != null, defensiveChallengeRating.ordinal > expectedChallengeRating.ordinal, armorClass > expectedChallengeRating.armorClass)
 		then
-			modify ($m) {setArmorClassMessage("Armor class is too great for expected challenge rating " + $m.getExpectedChallengeRating().getValue())}
+			modify ($m) {setArmorClassMessage("Armor class is too great for expected challenge rating " + $m.getExpectedChallengeRating().getValue())};
 			System.out.println("Armor class too great for expected challenge rating fired");
 end
 	
@@ -35,7 +35,7 @@ rule "Armor class too small for expected challenge rating"
 			ThreeConsecutiveMiscalculations()
 			$m: Monster(challengeRating.ordinal < expectedChallengeRating.ordinal, defensiveChallengeRating != null, defensiveChallengeRating.ordinal < expectedChallengeRating.ordinal, armorClass < expectedChallengeRating.armorClass)
 		then
-			modify ($m) {setArmorClassMessage("Armor class is too small for expected challenge rating " + $m.getExpectedChallengeRating().getValue())}
+			modify ($m) {setArmorClassMessage("Armor class is too small for expected challenge rating " + $m.getExpectedChallengeRating().getValue())};
 			System.out.println("Armor class too small for expected challenge rating fired");
 end
 	
@@ -45,7 +45,7 @@ rule "Hit points too great for expected challenge rating"
 			ThreeConsecutiveMiscalculations()
 			$m: Monster(challengeRating.ordinal > expectedChallengeRating.ordinal, defensiveChallengeRating != null, defensiveChallengeRating.ordinal > expectedChallengeRating.ordinal, averageHitPoints > expectedChallengeRating.maxHitPoints)
 		then
-			modify ($m) {setHitPointsMessage("Hit points are too great for expected challenge rating " + $m.getExpectedChallengeRating().getValue())}
+			modify ($m) {setHitPointsMessage("Hit points are too great for expected challenge rating " + $m.getExpectedChallengeRating().getValue())};
 			System.out.println("Hit points too great for expected challenge rating fired");
 end
 	
@@ -55,6 +55,28 @@ rule "Hit points too small for expected challenge rating"
 			ThreeConsecutiveMiscalculations()
 			$m: Monster(challengeRating.ordinal < expectedChallengeRating.ordinal, defensiveChallengeRating != null, defensiveChallengeRating.ordinal < expectedChallengeRating.ordinal, averageHitPoints < expectedChallengeRating.minHitPoints)
 		then
-			modify ($m) {setHitPointsMessage("Hit points are too small for expected challenge rating " + $m.getExpectedChallengeRating().getValue())}
+			modify ($m) {setHitPointsMessage("Hit points are too small for expected challenge rating " + $m.getExpectedChallengeRating().getValue())};
 			System.out.println("Hit points too small for expected challenge rating fired");
+end
+
+rule "Damage too great for expected challenge rating"
+	agenda-group "messages"
+		when
+			ThreeConsecutiveMiscalculations()
+			$m: Monster(challengeRating.ordinal > expectedChallengeRating.ordinal, offensiveChallengeRating != null, offensiveChallengeRating.ordinal > expectedChallengeRating.ordinal, $actions: actions)
+			$action: Action(averageDamage > $m.getExpectedChallengeRating.getMaxDamage()) from $actions
+		then
+			$action.setDamageMessage("Damage is too great for expected challenge rating " + $m.getExpectedChallengeRating().getValue());
+			modify ($m) {setActions($actions)};
+end
+
+rule "Damage too small for expected challenge rating"
+	agenda-group "messages"
+		when
+			ThreeConsecutiveMiscalculations()
+			$m: Monster(challengeRating.ordinal < expectedChallengeRating.ordinal, offensiveChallengeRating != null, offensiveChallengeRating.ordinal < expectedChallengeRating.ordinal, $actions: actions)
+			$action: Action(averageDamage < $m.getExpectedChallengeRating.getMinDamage()) from $actions
+		then
+			$action.setDamageMessage("Damage is too small for expected challenge rating " + $m.getExpectedChallengeRating().getValue());
+			modify ($m) {setActions($actions)};
 end

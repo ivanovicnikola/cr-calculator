@@ -9,12 +9,14 @@ import java.util.stream.Collectors;
 
 public class Action {
 	private List<Attack> attacks = new ArrayList<>();
+	private String damageMessage;
 	
 	public Action() { }
 
-	public Action(List<Attack> attacks) {
+	public Action(List<Attack> attacks, String damageMessage) {
 		super();
 		this.attacks = attacks;
+		this.damageMessage = damageMessage;
 	}
 
 	public List<Attack> getAttacks() {
@@ -23,6 +25,14 @@ public class Action {
 
 	public void setAttacks(List<Attack> attacks) {
 		this.attacks = attacks;
+	}
+
+	public String getDamageMessage() {
+		return damageMessage;
+	}
+
+	public void setDamageMessage(String damageMessage) {
+		this.damageMessage = damageMessage;
 	}
 
 	public Integer getAverageDamage() {
