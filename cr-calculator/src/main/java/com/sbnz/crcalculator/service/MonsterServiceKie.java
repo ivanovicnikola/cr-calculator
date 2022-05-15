@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 
-import org.drools.core.ClockType;
 import org.drools.decisiontable.ExternalSpreadsheetCompiler;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
@@ -17,7 +16,6 @@ import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.conf.ClockTypeOption;
 import org.kie.internal.io.ResourceFactory;
 import org.kie.internal.utils.KieHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,14 +72,6 @@ public class MonsterServiceKie implements MonsterService {
 		return monster;
 	}
 	
-	private String getStatisticsByCrRules() {
-		InputStream template = MonsterServiceKie.class.getResourceAsStream("/templates/statistics-by-cr.drt");
-		InputStream data = MonsterServiceKie.class.getResourceAsStream("/templates/statistics-by-cr.xls");
-		ExternalSpreadsheetCompiler converter = new ExternalSpreadsheetCompiler();
-		String drl = converter.compile(data, template, 3, 2);
-		return drl;
-	}
-	
 	private String getAbilityModifierRules() {
 		InputStream template = MonsterServiceKie.class.getResourceAsStream("/templates/ability-modifiers.drt");
 		InputStream data = MonsterServiceKie.class.getResourceAsStream("/templates/ability-modifiers.xls");
@@ -109,9 +99,6 @@ public class MonsterServiceKie implements MonsterService {
 		
 		String modifiers = getAbilityModifierRules();
 		kieHelper.addContent(modifiers, ResourceType.DRL);
-		
-		String statsByCr = getStatisticsByCrRules();
-		kieHelper.addContent(statsByCr, ResourceType.DRL);
 		
 		String hitDiceBySize = getHitDiceBySizeRules();
 		kieHelper.addContent(hitDiceBySize, ResourceType.DRL);

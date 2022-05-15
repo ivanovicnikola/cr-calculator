@@ -4,13 +4,40 @@ import com.sbnz.crcalculator.facts.Monster;
 import com.sbnz.crcalculator.facts.ChallengeRating;
 
 rule "Determine challenge rating"
-agenda-group "recalculate"
-    when
-        $m: Monster($d: defensiveChallengeRating != null, $o: offensiveChallengeRating != null)
-        $cr: ChallengeRating(ordinal == ($d.getOrdinal() + $o.getOrdinal())/2);
-    then
-    	System.out.println("Determine challenge rating fired");
-        modify ($m) { setChallengeRating($cr))};
-        insert(new CalculationEvent($m));
+	agenda-group "recalculate"
+	    when
+	        $m: Monster($d: defensiveChallengeRating != null, $o: offensiveChallengeRating != null)
+	        $cr: ChallengeRating(ordinal == ($d.getOrdinal() + $o.getOrdinal())/2);
+	    then
+	    	System.out.println("Determine challenge rating fired");
+	        modify ($m) { setChallengeRating($cr))};
+	        insert(new CalculationEvent($m));
 
+end
+
+rule "Determine offensive challenge rating"
+	agenda-group "recalculate"
+		when
+			$m: Monster($actions: actions, offensiveChallengeRating == null)
+			Number($n: intValue) from accumulate(
+				$action: Action() from $actions,
+				max($action.getAverageDamage())
+			)
+			$a: Action(averageDamage == $n) from $actions
+			ChallengeRating(minDamage < $n, maxDamage > $n, $o: ordinal, $ab: attackBonus)
+			$cr: ChallengeRating(ordinal == $o + ($a.getMostCommonAttackBonus() - $ab)/2)
+		then
+			System.out.println("Determine offensive challenge rating fired");
+			modify ($m) {setOffensiveChallengeRating($cr)};
+end
+	
+rule "Determine defensive challenge rating"
+	agenda-group "recalculate"
+		when
+			$m: Monster($hp: averageHitPoints, defensiveChallengeRating == null)
+			ChallengeRating(minHitPoints < $hp, maxHitPoints > $hp, $o: ordinal, $ac: armorClass)
+			$cr: ChallengeRating(ordinal == $o + ($m.getArmorClass() - $ac)/2)
+		then
+			System.out.println("Determine defensive challenge rating fired");
+			modify ($m) {setDefensiveChallengeRating($cr)}
 end

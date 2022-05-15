@@ -1,0 +1,60 @@
+package rules
+
+import com.sbnz.crcalculator.events.CalculationEvent;
+
+declare ThreeConsecutiveMiscalculations
+	@role(event)
+end
+
+rule "Three consecutive miscalculations"
+agenda-group "messages"
+	when
+		Number(intValue == 3) from accumulate(
+			$c: CalculationEvent(monster.expectedChallengeRating.ordinal != monster.challengeRating.ordinal)
+		 	over window:length(3),
+		 	count($c)
+		 )
+	then
+		System.out.println("Three consecutive miscalculations fired");
+		insert(new ThreeConsecutiveMiscalculations());
+end
+
+rule "Armor class too great for expected challenge rating"
+	agenda-group "messages"
+		when
+			ThreeConsecutiveMiscalculations()
+			$m: Monster(challengeRating.ordinal > expectedChallengeRating.ordinal, defensiveChallengeRating != null, defensiveChallengeRating.ordinal > expectedChallengeRating.ordinal, armorClass > expectedChallengeRating.armorClass)
+		then
+			modify ($m) {setArmorClassMessage("Armor class is too great for expected challenge rating " + $m.getExpectedChallengeRating().getValue())}
+			System.out.println("Armor class too great for expected challenge rating fired");
+end
+	
+rule "Armor class too small for expected challenge rating"
+	agenda-group "messages"
+		when
+			ThreeConsecutiveMiscalculations()
+			$m: Monster(challengeRating.ordinal < expectedChallengeRating.ordinal, defensiveChallengeRating != null, defensiveChallengeRating.ordinal < expectedChallengeRating.ordinal, armorClass < expectedChallengeRating.armorClass)
+		then
+			modify ($m) {setArmorClassMessage("Armor class is too small for expected challenge rating " + $m.getExpectedChallengeRating().getValue())}
+			System.out.println("Armor class too small for expected challenge rating fired");
+end
+	
+rule "Hit points too great for expected challenge rating"
+	agenda-group "messages"
+		when
+			ThreeConsecutiveMiscalculations()
+			$m: Monster(challengeRating.ordinal > expectedChallengeRating.ordinal, defensiveChallengeRating != null, defensiveChallengeRating.ordinal > expectedChallengeRating.ordinal, averageHitPoints > expectedChallengeRating.maxHitPoints)
+		then
+			modify ($m) {setHitPointsMessage("Hit points are too great for expected challenge rating " + $m.getExpectedChallengeRating().getValue())}
+			System.out.println("Hit points too great for expected challenge rating fired");
+end
+	
+rule "Hit points too small for expected challenge rating"
+	agenda-group "messages"
+		when
+			ThreeConsecutiveMiscalculations()
+			$m: Monster(challengeRating.ordinal < expectedChallengeRating.ordinal, defensiveChallengeRating != null, defensiveChallengeRating.ordinal < expectedChallengeRating.ordinal, averageHitPoints < expectedChallengeRating.minHitPoints)
+		then
+			modify ($m) {setHitPointsMessage("Hit points are too small for expected challenge rating " + $m.getExpectedChallengeRating().getValue())}
+			System.out.println("Hit points too small for expected challenge rating fired");
+end

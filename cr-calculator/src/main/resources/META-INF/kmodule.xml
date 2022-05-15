@@ -9,9 +9,6 @@
        	<ruleTemplate dtable="templates/hit-dice-by-size.xls"
                       template="templates/hit-dice-by-size.drt"
                       row="3" col="2"/>
-        <ruleTemplate dtable="templates/statistics-by-cr.xls"
-                      template="templates/statistics-by-cr.drt"
-                      row="3" col="2"/>
     	<ksession name="ExampleSession" />
     </kbase>
 
