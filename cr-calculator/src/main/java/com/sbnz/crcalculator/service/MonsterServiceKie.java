@@ -66,8 +66,9 @@ public class MonsterServiceKie implements MonsterService {
 		kieSession.getAgenda().getAgendaGroup("messages").setFocus();
 		kieSession.fireAllRules();
 		kieSession.dispose();
-		Collection<CalculationEvent> newEvents = (Collection<CalculationEvent>) kieSession.getObjects(new ClassObjectFilter(CalculationEvent.class));
-		eventStorage.setEvents(newEvents);
+		//Collection<CalculationEvent> newEvents = (Collection<CalculationEvent>) kieSession.getObjects(new ClassObjectFilter(CalculationEvent.class));
+		//eventStorage.setEvents(newEvents);
+		eventStorage.getEvents().add(new CalculationEvent(monster));
 		return monster;
 	}
 	

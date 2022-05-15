@@ -11,7 +11,6 @@ rule "Determine challenge rating"
 	    then
 	    	System.out.println("Challenge rating calculated to " + $cr.getValue());
 	        modify ($m) { setChallengeRating($cr))};
-	        insert(new CalculationEvent($m));
 
 end
 

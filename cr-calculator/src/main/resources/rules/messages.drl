@@ -9,9 +9,10 @@ end
 rule "Three consecutive miscalculations"
 agenda-group "messages"
 	when
-		Number(intValue == 3) from accumulate(
-			$c: CalculationEvent(monster.expectedChallengeRating.ordinal != monster.challengeRating.ordinal)
-		 	over window:length(3),
+		$m: Monster(challengeRating.ordinal != expectedChallengeRating.ordinal)
+		Number(intValue == 2) from accumulate(
+			$c: CalculationEvent(monster.expectedChallengeRating.ordinal != monster.challengeRating.ordinal, monster.expectedChallengeRating.ordinal == $m.expectedChallengeRating.ordinal)
+		 	over window:time(1m),
 		 	count($c)
 		 )
 	then
