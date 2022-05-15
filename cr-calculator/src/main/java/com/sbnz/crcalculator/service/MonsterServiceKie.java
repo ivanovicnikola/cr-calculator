@@ -2,6 +2,7 @@ package com.sbnz.crcalculator.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.List;
 
 import org.drools.core.ClockType;
@@ -13,6 +14,7 @@ import org.kie.api.builder.Message;
 import org.kie.api.builder.Results;
 import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.io.ResourceType;
+import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.conf.ClockTypeOption;
@@ -47,6 +49,7 @@ public class MonsterServiceKie implements MonsterService {
 	
 	@Override
 	public Monster getClassifiedMonster(Monster monster) {
+		monster.setExpectedChallengeRating(monster.getChallengeRating());
 		KieSession kieSession = createKieSession();
 		//KieBase kieBase = kieContainer.getKieBase("ExampleKBase");
 		//KieSession kieSession = kieBase.newKieSession();
@@ -63,8 +66,11 @@ public class MonsterServiceKie implements MonsterService {
 		kieSession.fireAllRules();
 		kieSession.getAgenda().getAgendaGroup("recalculate").setFocus();
 		kieSession.fireAllRules();
+		kieSession.getAgenda().getAgendaGroup("messages").setFocus();
+		kieSession.fireAllRules();
 		kieSession.dispose();
-		eventStorage.getEvents().add(new CalculationEvent(monster));
+		Collection<CalculationEvent> newEvents = (Collection<CalculationEvent>) kieSession.getObjects(new ClassObjectFilter(CalculationEvent.class));
+		eventStorage.setEvents(newEvents);
 		return monster;
 	}
 	

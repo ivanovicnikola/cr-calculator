@@ -3,7 +3,7 @@ monsterSize
 dieName
 averageRoll
 
-package templates
+package rules
 
 import com.sbnz.crcalculator.facts.Monster;
 import com.sbnz.crcalculator.facts.Die;

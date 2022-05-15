@@ -2,13 +2,19 @@ package rules
 
 import com.sbnz.crcalculator.events.CalculationEvent;
 
-rule "Test rule"
+declare ThreeConsecutiveMiscalculations
+	@role(event)
+end
+
+rule "Three consecutive miscalculations"
+agenda-group "messages"
 	when
-		 Number(intValue >= 3) from accumulate(
-		 	$c: CalculationEvent()
+		Number(intValue == 3) from accumulate(
+			$c: CalculationEvent(monster.expectedChallengeRating.ordinal != monster.challengeRating.ordinal)
 		 	over window:length(3),
 		 	count($c)
 		 )
 	then
-		System.out.println("CEP Working!");
+		System.out.println("Three consecutive miscalculations fired");
+		insert(new ThreeConsecutiveMiscalculations());
 end

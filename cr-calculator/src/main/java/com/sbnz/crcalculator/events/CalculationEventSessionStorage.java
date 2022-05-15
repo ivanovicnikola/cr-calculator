@@ -1,24 +1,24 @@
 package com.sbnz.crcalculator.events;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 public class CalculationEventSessionStorage {
 	
-	private List<CalculationEvent> events = new ArrayList<>();
+	private Collection<CalculationEvent> events = new ArrayList<>();
 	
 	public CalculationEventSessionStorage() { }
 
-	public CalculationEventSessionStorage(List<CalculationEvent> events) {
+	public CalculationEventSessionStorage(Collection<CalculationEvent> events) {
 		super();
 		this.events = events;
 	}
 
-	public List<CalculationEvent> getEvents() {
+	public Collection<CalculationEvent> getEvents() {
 		return events;
 	}
 
-	public void setEvents(List<CalculationEvent> events) {
+	public void setEvents(Collection<CalculationEvent> events) {
 		this.events = events;
 	}
 

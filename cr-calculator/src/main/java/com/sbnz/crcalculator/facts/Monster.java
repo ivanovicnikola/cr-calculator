@@ -17,18 +17,22 @@ public class Monster {
 	private ChallengeRating challengeRating;
 	private Integer proficiencyBonus;
 	private Integer armorClass;
+	private String armorClassMessage;
 	private Integer numberOfHitDice;
 	private Die hitDie;
+	private String hitPointsMessage;
 	private List<Action> actions = new ArrayList<>();
 	private ChallengeRating offensiveChallengeRating;
 	private ChallengeRating defensiveChallengeRating;
+	private ChallengeRating expectedChallengeRating;
 	
 	public Monster() { }
 
-	public Monster(String name, MonsterSize size, Ability strength, Ability dexterity, Ability constitution,
-			Ability intelligence, Ability wisdom, Ability charisma, ChallengeRating challengeRating, Integer proficiencyBonus,
-			Integer armorClass, Integer numberOfHitDice, Die hitDie, List<Action> actions,
-			ChallengeRating offensiveChallengeRating, ChallengeRating defensiveChallengeRating) {
+	public Monster(MonsterSize size, Ability strength, Ability dexterity, Ability constitution, Ability intelligence,
+			Ability wisdom, Ability charisma, ChallengeRating challengeRating, Integer proficiencyBonus,
+			Integer armorClass, String armorClassMessage, Integer numberOfHitDice, Die hitDie, String hitPointsMessage,
+			List<Action> actions, ChallengeRating offensiveChallengeRating, ChallengeRating defensiveChallengeRating,
+			ChallengeRating expectedChallengeRating) {
 		super();
 		this.size = size;
 		this.strength = strength;
@@ -40,11 +44,14 @@ public class Monster {
 		this.challengeRating = challengeRating;
 		this.proficiencyBonus = proficiencyBonus;
 		this.armorClass = armorClass;
+		this.armorClassMessage = armorClassMessage;
 		this.numberOfHitDice = numberOfHitDice;
 		this.hitDie = hitDie;
+		this.hitPointsMessage = hitPointsMessage;
 		this.actions = actions;
 		this.offensiveChallengeRating = offensiveChallengeRating;
 		this.defensiveChallengeRating = defensiveChallengeRating;
+		this.expectedChallengeRating = expectedChallengeRating;
 	}
 
 	public MonsterSize getSize() {
@@ -173,6 +180,30 @@ public class Monster {
 
 	public void setDefensiveChallengeRating(ChallengeRating defensiveChallengeRating) {
 		this.defensiveChallengeRating = defensiveChallengeRating;
+	}
+
+	public String getArmorClassMessage() {
+		return armorClassMessage;
+	}
+
+	public void setArmorClassMessage(String armorClassMessage) {
+		this.armorClassMessage = armorClassMessage;
+	}
+
+	public String getHitPointsMessage() {
+		return hitPointsMessage;
+	}
+
+	public void setHitPointsMessage(String hitPointsMessage) {
+		this.hitPointsMessage = hitPointsMessage;
+	}
+
+	public ChallengeRating getExpectedChallengeRating() {
+		return expectedChallengeRating;
+	}
+
+	public void setExpectedChallengeRating(ChallengeRating expectedChallengeRating) {
+		this.expectedChallengeRating = expectedChallengeRating;
 	}
 
 }

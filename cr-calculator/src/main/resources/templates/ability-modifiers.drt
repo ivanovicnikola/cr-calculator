@@ -3,7 +3,7 @@ minScore
 maxScore
 modifier
 
-package templates
+package rules
 
 import com.sbnz.crcalculator.facts.Monster;
 

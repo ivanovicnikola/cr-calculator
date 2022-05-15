@@ -11,5 +11,6 @@ agenda-group "recalculate"
     then
     	System.out.println("Determine challenge rating fired");
         modify ($m) { setChallengeRating($cr))};
+        insert(new CalculationEvent($m));
 
 end
