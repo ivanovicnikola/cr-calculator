@@ -40,12 +40,16 @@ public class MonsterServiceKie implements MonsterService {
 	
 	@Override
 	public Monster getClassifiedMonster(Monster monster) {
-		//KieSession kieSession = kieContainer.newKieSession("ExampleSession");
-		KieSession kieSession = createKieSession();
-		kieSession.insert(monster);
+		KieSession templateSession = createTemplateSession();
+		KieSession kieSession = kieContainer.newKieSession();
+		templateSession.insert(monster);
 		for(Die die: dieService.findAll()) {
-			kieSession.insert(die);
+			templateSession.insert(die);
 		}
+		templateSession.fireAllRules();
+		templateSession.dispose();
+		
+		kieSession.insert(monster);
 		for(ChallengeRating challengeRating: challengeRatingService.findAll()) {
 			kieSession.insert(challengeRating);
 		}
@@ -72,14 +76,8 @@ public class MonsterServiceKie implements MonsterService {
 		return drl;
 	}
 	
-	private KieSession createKieSession() {
+	private KieSession createTemplateSession() {
 		KieHelper kieHelper = new KieHelper();
-		try {
-			kieHelper = getResourceFolderFiles(kieHelper);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		String modifiers = getAbilityModifierRules();
 		kieHelper.addContent(modifiers, ResourceType.DRL);
@@ -106,15 +104,4 @@ public class MonsterServiceKie implements MonsterService {
         
         return kieBase.newKieSession();
 	}
-	
-	private static KieHelper getResourceFolderFiles (KieHelper kieHelper) throws IOException {  
-	    ClassLoader cl =  Thread.currentThread().getContextClassLoader().getClass().getClassLoader();
-	    ResourcePatternResolver resolver = new
-	    PathMatchingResourcePatternResolver(cl);     
-	    Resource[] resources = resolver.getResources("/rules/**/*.drl") ;  
-	    for (Resource resource: resources) {
-	    	kieHelper.addResource(ResourceFactory.newFileResource(resource.getFile()), ResourceType.DRL);
-	    }
-	    return kieHelper;
-	  }
 }
