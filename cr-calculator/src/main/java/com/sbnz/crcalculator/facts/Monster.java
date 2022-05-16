@@ -19,14 +19,13 @@ public class Monster {
 	private Integer numberOfHitDice;
 	private Die hitDie;
 	private List<Action> actions = new ArrayList<>();
-	private ChallengeRating expectedChallengeRating;
 	
 	public Monster() { }
 
 	public Monster(MonsterSize size, Ability strength, Ability dexterity, Ability constitution, Ability intelligence,
 			Ability wisdom, Ability charisma, ChallengeRating challengeRating,
 			Integer armorClass, Integer numberOfHitDice, Die hitDie,
-			List<Action> actions, ChallengeRating expectedChallengeRating) {
+			List<Action> actions) {
 		super();
 		this.size = size;
 		this.strength = strength;
@@ -40,7 +39,6 @@ public class Monster {
 		this.numberOfHitDice = numberOfHitDice;
 		this.hitDie = hitDie;
 		this.actions = actions;
-		this.expectedChallengeRating = expectedChallengeRating;
 	}
 
 	public MonsterSize getSize() {
@@ -145,14 +143,6 @@ public class Monster {
 
 	public void setActions(List<Action> actions) {
 		this.actions = actions;
-	}
-
-	public ChallengeRating getExpectedChallengeRating() {
-		return expectedChallengeRating;
-	}
-
-	public void setExpectedChallengeRating(ChallengeRating expectedChallengeRating) {
-		this.expectedChallengeRating = expectedChallengeRating;
 	}
 
 	public Integer getProficiencyBonus() {
