@@ -149,10 +149,10 @@
 											<li v-for="(action, actionIndex) in monsterInput.actions" class="list-group-item bg-transparent">
 												</span><a class="delete link-secondary" @click="removeAction(actionIndex)"><i class="bi bi-x-lg"></i></a>
 												<div class="attacks-heading">Attacks</div>
-												<button type="button" @click="addAttack(action)" class="btn btn-danger btn-sm mb-2"><i class="bi bi-plus-lg"></i></button>
+												<button type="button" @click="addAttack(actionIndex)" class="btn btn-danger btn-sm mb-2"><i class="bi bi-plus-lg"></i></button>
 												<ul class="list-group bg-transparent">
 													<li v-for="(attack, attackIndex) in action.attacks" class="list-group-item bg-transparent">
-														</span><a class="delete link-secondary" @click="removeAttack(action, attackIndex)"><i class="bi bi-x-lg"></i></a>
+														</span><a class="delete link-secondary" @click="removeAttack(actionIndex, attackIndex)"><i class="bi bi-x-lg"></i></a>
 														<div class="form-group mb-2">
 															<em>
 																<strong>Number per Round</strong>
@@ -177,7 +177,7 @@
 																<option v-for="die in dice" v-bind:value="die">{{die.name}}</option>
 															</select>
 														</div>
-														<span v-if="displayResult">{{attackString(actionIndex, attackIndex)}}</span>
+														<span v-if="displayResult">{{monsterResult.actions[actionIndex].attacks[attackIndex].attackString}}</span>
 													</li>
 												</ul>
 											</li>

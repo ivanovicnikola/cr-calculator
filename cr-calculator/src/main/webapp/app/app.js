@@ -98,9 +98,23 @@ var app = new Vue({
 			this.monsterInput.actions.push({
 				attacks: []
 			});
+			this.monsterResult.actions.push({
+				attacks: []
+			});
 		},
-		addAttack: function(action) {
-			action.attacks.push({
+		addAttack: function(actionIndex) {
+			this.monsterInput.actions[actionIndex].attacks.push({
+				numberPerRound: null,
+				relevantAbility: null,
+				baseDamage: {
+					die: {
+						name: null,
+						averageRoll: null
+					},
+					numberOfDice: null
+				}
+			});
+			this.monsterResult.actions[actionIndex].attacks.push({
 				numberPerRound: null,
 				relevantAbility: null,
 				baseDamage: {
@@ -114,16 +128,14 @@ var app = new Vue({
 		},
 		removeAction: function(index) {
 			this.monsterInput.actions.splice(index, 1);
+			this.monsterResult.actions.splice(index, 1);
 		},
-		removeAttack: function(action, index) {
-			action.attacks.splice(index, 1);
+		removeAttack: function(actionIndex, attackIndex) {
+			this.monsterInput.actions[actionIndex].attacks.splice(attackIndex, 1);
+			this.monsterResult.actions[actionIndex].attacks.splice(attackIndex, 1);
 		},
 		bonusString: function(bonus) {
 			return (bonus>0)?"+" + bonus: bonus;
-		},
-		attackString: function(actionIndex, attackIndex) {
-			let attack = this.monsterResult.actions[actionIndex].attacks[attackIndex];
-			return attack.numberPerRound + ((attack.numberPerRound == 1)?" attack":" attacks") + ": " + this.bonusString(attack.attackBonus) + " to hit. Hit: " + (attack.baseDamage.averageValue + attack.damageBonus) + " (" + attack.baseDamage.numberOfDice + attack.baseDamage.die.name + this.bonusString(attack.damageBonus) + ") damage.";
 		}
 	}
 });

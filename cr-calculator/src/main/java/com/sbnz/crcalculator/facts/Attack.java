@@ -63,4 +63,11 @@ public class Attack {
 		return (baseDamage.getAverageValue() + damageBonus) * numberPerRound;
 	}
 
+	public String bonusString(Integer bonus) {
+		return (bonus>0)?"+" + bonus: "" + bonus;
+	}
+	
+	public String getAttackString() {
+		return numberPerRound + ((numberPerRound == 1)?" attack":" attacks") + ": " + bonusString(attackBonus) + " to hit. Hit: " + (baseDamage.getAverageValue() + damageBonus) + " (" + baseDamage.getNumberOfDice() + baseDamage.getDie().getName() + bonusString(damageBonus) + ") damage.";
+	}
 }
