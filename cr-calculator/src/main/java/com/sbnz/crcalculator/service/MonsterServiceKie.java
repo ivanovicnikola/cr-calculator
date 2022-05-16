@@ -2,7 +2,6 @@ package com.sbnz.crcalculator.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.List;
 
 import org.drools.decisiontable.ExternalSpreadsheetCompiler;
@@ -13,7 +12,6 @@ import org.kie.api.builder.Message;
 import org.kie.api.builder.Results;
 import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.io.ResourceType;
-import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.io.ResourceFactory;
@@ -24,8 +22,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
-import com.sbnz.crcalculator.events.CalculationEvent;
-import com.sbnz.crcalculator.events.CalculationEventSessionStorage;
 import com.sbnz.crcalculator.facts.ChallengeRating;
 import com.sbnz.crcalculator.facts.Die;
 import com.sbnz.crcalculator.facts.Monster;
@@ -42,9 +38,6 @@ public class MonsterServiceKie implements MonsterService {
 	@Autowired
 	private ChallengeRatingService challengeRatingService;
 	
-	@Autowired
-	private CalculationEventSessionStorage eventStorage;
-	
 	@Override
 	public Monster getClassifiedMonster(Monster monster) {
 		monster.setExpectedChallengeRating(monster.getChallengeRating());
@@ -57,18 +50,10 @@ public class MonsterServiceKie implements MonsterService {
 		for(ChallengeRating challengeRating: challengeRatingService.findAll()) {
 			kieSession.insert(challengeRating);
 		}
-		for(CalculationEvent event: eventStorage.getEvents()) {
-			kieSession.insert(event);
-		}
 		kieSession.fireAllRules();
 		kieSession.getAgenda().getAgendaGroup("recalculate").setFocus();
 		kieSession.fireAllRules();
-		kieSession.getAgenda().getAgendaGroup("messages").setFocus();
-		kieSession.fireAllRules();
 		kieSession.dispose();
-		//Collection<CalculationEvent> newEvents = (Collection<CalculationEvent>) kieSession.getObjects(new ClassObjectFilter(CalculationEvent.class));
-		//eventStorage.setEvents(newEvents);
-		eventStorage.getEvents().add(new CalculationEvent(monster));
 		return monster;
 	}
 	

@@ -40,7 +40,6 @@
 									<span class="mon-stat-block__attribute-value">
 										<input type="number" min="1" max="25" v-model.number="monsterInput.armorClass" required>
 									</span>
-									<div v-if="displayResult" class="message"><em>{{monsterResult.armorClassMessage}}</em></div>
 								</div>
 								<div class="mon-stat-block__attribute">
 									<span class="mon-stat-block__attribute-label">Number of Hit Dice</span>
@@ -51,7 +50,6 @@
 								<div class="mon-stat-block__attribute" v-if="displayResult">
 									<span class="mon-stat-block__attribute-label">Hit Points</span>
 									<span class="mon-stat-block__attribute-value">{{monsterResult.averageHitPoints}} ({{monsterResult.numberOfHitDice}}{{monsterResult.hitDie.name}} + {{monsterResult.hitPointBonus}})</span>
-									<div v-if="displayResult" class="message"><em>{{monsterResult.hitPointsMessage}}</em></div>
 								</div>
 							</div>
 							<div class="mon-stat-block__stat-block">
@@ -180,10 +178,8 @@
 															</select>
 														</div>
 														<span v-if="displayResult">{{attackString(actionIndex, attackIndex)}}</span>
-														<div v-if="displayResult" class="message mt-2"><em>{{monsterResult.actions[actionIndex].attacks[attackIndex].attackBonusMessage}}</em></div>
 													</li>
 												</ul>
-												<div v-if="displayResult" class="message mt-2"><em>{{monsterResult.actions[actionIndex].damageMessage}}</em></div>
 											</li>
 										</ul>
 									</div>

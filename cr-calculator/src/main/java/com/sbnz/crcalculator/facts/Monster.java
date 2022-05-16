@@ -16,22 +16,17 @@ public class Monster {
 	private Ability charisma;
 	private ChallengeRating challengeRating;
 	private Integer armorClass;
-	private String armorClassMessage;
 	private Integer numberOfHitDice;
 	private Die hitDie;
-	private String hitPointsMessage;
 	private List<Action> actions = new ArrayList<>();
-	private ChallengeRating offensiveChallengeRating;
-	private ChallengeRating defensiveChallengeRating;
 	private ChallengeRating expectedChallengeRating;
 	
 	public Monster() { }
 
 	public Monster(MonsterSize size, Ability strength, Ability dexterity, Ability constitution, Ability intelligence,
 			Ability wisdom, Ability charisma, ChallengeRating challengeRating,
-			Integer armorClass, String armorClassMessage, Integer numberOfHitDice, Die hitDie, String hitPointsMessage,
-			List<Action> actions, ChallengeRating offensiveChallengeRating, ChallengeRating defensiveChallengeRating,
-			ChallengeRating expectedChallengeRating) {
+			Integer armorClass, Integer numberOfHitDice, Die hitDie,
+			List<Action> actions, ChallengeRating expectedChallengeRating) {
 		super();
 		this.size = size;
 		this.strength = strength;
@@ -42,13 +37,9 @@ public class Monster {
 		this.charisma = charisma;
 		this.challengeRating = challengeRating;
 		this.armorClass = armorClass;
-		this.armorClassMessage = armorClassMessage;
 		this.numberOfHitDice = numberOfHitDice;
 		this.hitDie = hitDie;
-		this.hitPointsMessage = hitPointsMessage;
 		this.actions = actions;
-		this.offensiveChallengeRating = offensiveChallengeRating;
-		this.defensiveChallengeRating = defensiveChallengeRating;
 		this.expectedChallengeRating = expectedChallengeRating;
 	}
 
@@ -154,38 +145,6 @@ public class Monster {
 
 	public void setActions(List<Action> actions) {
 		this.actions = actions;
-	}
-
-	public ChallengeRating getOffensiveChallengeRating() {
-		return offensiveChallengeRating;
-	}
-
-	public void setOffensiveChallengeRating(ChallengeRating offensiveChallengeRating) {
-		this.offensiveChallengeRating = offensiveChallengeRating;
-	}
-
-	public ChallengeRating getDefensiveChallengeRating() {
-		return defensiveChallengeRating;
-	}
-
-	public void setDefensiveChallengeRating(ChallengeRating defensiveChallengeRating) {
-		this.defensiveChallengeRating = defensiveChallengeRating;
-	}
-
-	public String getArmorClassMessage() {
-		return armorClassMessage;
-	}
-
-	public void setArmorClassMessage(String armorClassMessage) {
-		this.armorClassMessage = armorClassMessage;
-	}
-
-	public String getHitPointsMessage() {
-		return hitPointsMessage;
-	}
-
-	public void setHitPointsMessage(String hitPointsMessage) {
-		this.hitPointsMessage = hitPointsMessage;
 	}
 
 	public ChallengeRating getExpectedChallengeRating() {

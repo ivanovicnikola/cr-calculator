@@ -6,19 +6,17 @@ public class Attack {
 	private DamageUnit baseDamage;
 	private Integer damageBonus;
 	private AbilityName relevantAbility;
-	private String attackBonusMessage;
 	
 	public Attack() { }
 
 	public Attack(Integer numberPerRound, Integer attackBonus, DamageUnit baseDamage, Integer damageBonus,
-			AbilityName relevantAbility, String attackBonusMessage) {
+			AbilityName relevantAbility) {
 		super();
 		this.numberPerRound = numberPerRound;
 		this.attackBonus = attackBonus;
 		this.baseDamage = baseDamage;
 		this.damageBonus = damageBonus;
 		this.relevantAbility = relevantAbility;
-		this.attackBonusMessage = attackBonusMessage;
 	}
 
 	public Integer getNumberPerRound() {
@@ -63,14 +61,6 @@ public class Attack {
 
 	public Integer getAverageDamage() {
 		return (baseDamage.getAverageValue() + damageBonus) * numberPerRound;
-	}
-
-	public String getAttackBonusMessage() {
-		return attackBonusMessage;
-	}
-
-	public void setAttackBonusMessage(String attackBonusMessage) {
-		this.attackBonusMessage = attackBonusMessage;
 	}
 
 }
