@@ -3,26 +3,28 @@ package rules
 import com.sbnz.crcalculator.facts.Monster;
 import com.sbnz.crcalculator.facts.ChallengeRating;
 
-query getOffensiveChallengeRating(Monster $m, ChallengeRating $cr)
-	$m := Monster($actions: actions)
+query getMaxDamageAction(Monster m, Action $action)
 	Number($n: intValue) from accumulate(
-		$action: Action() from $actions,
-		max($action.getAverageDamage())
+		$a: Action() from m.getActions,
+		max($a.getAverageDamage())
 	)
-	$a: Action(averageDamage == $n) from $actions
-	ChallengeRating(minDamage <= $n, maxDamage >= $n, $o: ordinal, $ab: attackBonus)
-	$cr:= ChallengeRating(ordinal == $o + ($a.getMostCommonAttackBonus() - $ab)/2)
+	$action:= Action(averageDamage == $n) from m.getActions()
 end
 
-query getDefensiveChallengeRating(Monster $m, ChallengeRating $cr)
-	$m := Monster($hp: averageHitPoints)
-	ChallengeRating(minHitPoints <= $hp, maxHitPoints >= $hp, $o: ordinal, $ac: armorClass)
-	$cr:= ChallengeRating(ordinal == $o + ($m.getArmorClass() - $ac)/2)
+query getOffensiveChallengeRating(Monster m, ChallengeRating $cr)
+	getMaxDamageAction(m, $action;)
+	ChallengeRating(minDamage <= $action.getAverageDamage(), maxDamage >= $action.getAverageDamage(), $o: ordinal, $ab: attackBonus)
+	$cr:= ChallengeRating(ordinal == $o + ($action.getMostCommonAttackBonus() - $ab)/2)
 end
 
-query getChallengeRating(Monster $m, ChallengeRating $cr)
-	getDefensiveChallengeRating($m, $defCr;)
-	getOffensiveChallengeRating($m, $offCr;)
+query getDefensiveChallengeRating(Monster m, ChallengeRating $cr)
+	ChallengeRating(minHitPoints <= m.getAverageHitPoints(), maxHitPoints >= m.getAverageHitPoints(), $o: ordinal, $ac: armorClass)
+	$cr:= ChallengeRating(ordinal == $o + (m.getArmorClass() - $ac)/2)
+end
+
+query getChallengeRating(Monster m, ChallengeRating $cr)
+	getDefensiveChallengeRating(m, $defCr;)
+	getOffensiveChallengeRating(m, $offCr;)
 	$cr:= ChallengeRating(ordinal == ($defCr.getOrdinal() + $offCr.getOrdinal())/2);
 end
 
