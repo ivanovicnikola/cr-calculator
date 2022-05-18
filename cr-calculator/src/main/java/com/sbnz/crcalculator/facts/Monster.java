@@ -15,6 +15,8 @@ public class Monster {
 	private Ability wisdom;
 	private Ability charisma;
 	private ChallengeRating challengeRating;
+	private ChallengeRating defensiveChallengeRating;
+	private ChallengeRating offensiveChallengeRating;
 	private Integer armorClass;
 	private Integer numberOfHitDice;
 	private Die hitDie;
@@ -23,8 +25,8 @@ public class Monster {
 	public Monster() { }
 
 	public Monster(MonsterSize size, Ability strength, Ability dexterity, Ability constitution, Ability intelligence,
-			Ability wisdom, Ability charisma, ChallengeRating challengeRating,
-			Integer armorClass, Integer numberOfHitDice, Die hitDie,
+			Ability wisdom, Ability charisma, ChallengeRating challengeRating, ChallengeRating defensiveChallengeRating,
+			ChallengeRating offensiveChallengeRating, Integer armorClass, Integer numberOfHitDice, Die hitDie,
 			List<Action> actions) {
 		super();
 		this.size = size;
@@ -35,6 +37,8 @@ public class Monster {
 		this.wisdom = wisdom;
 		this.charisma = charisma;
 		this.challengeRating = challengeRating;
+		this.defensiveChallengeRating = defensiveChallengeRating;
+		this.offensiveChallengeRating = offensiveChallengeRating;
 		this.armorClass = armorClass;
 		this.numberOfHitDice = numberOfHitDice;
 		this.hitDie = hitDie;
@@ -148,5 +152,20 @@ public class Monster {
 	public Integer getProficiencyBonus() {
 		return challengeRating.getProficiencyBonus();
 	}
-	
+
+	public ChallengeRating getDefensiveChallengeRating() {
+		return defensiveChallengeRating;
+	}
+
+	public void setDefensiveChallengeRating(ChallengeRating defensiveChallengeRating) {
+		this.defensiveChallengeRating = defensiveChallengeRating;
+	}
+
+	public ChallengeRating getOffensiveChallengeRating() {
+		return offensiveChallengeRating;
+	}
+
+	public void setOffensiveChallengeRating(ChallengeRating offensiveChallengeRating) {
+		this.offensiveChallengeRating = offensiveChallengeRating;
+	}
 }

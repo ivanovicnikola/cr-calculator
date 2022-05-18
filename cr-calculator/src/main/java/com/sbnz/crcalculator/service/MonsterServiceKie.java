@@ -1,6 +1,5 @@
 package com.sbnz.crcalculator.service;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -14,12 +13,8 @@ import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.kie.internal.io.ResourceFactory;
 import org.kie.internal.utils.KieHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
 import com.sbnz.crcalculator.facts.ChallengeRating;
@@ -53,8 +48,6 @@ public class MonsterServiceKie implements MonsterService {
 		for(ChallengeRating challengeRating: challengeRatingService.findAll()) {
 			kieSession.insert(challengeRating);
 		}
-		kieSession.fireAllRules();
-		kieSession.getAgenda().getAgendaGroup("recalculate").setFocus();
 		kieSession.fireAllRules();
 		kieSession.dispose();
 		return monster;

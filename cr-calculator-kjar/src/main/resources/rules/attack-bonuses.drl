@@ -11,9 +11,9 @@ no-loop true
         Action($attacks: attacks) from $actions
         $attack: Attack(relevantAbility.name().equalsIgnoreCase("STRENGTH")) from $attacks
     then
-        System.out.println("Determine strength attack bonus fired");
         $attack.setAttackBonus($m.getStrength().getAbilityModifier() + $m.getProficiencyBonus());
         modify ($m) { setActions($actions) };
+        System.out.println("Strength attack bonus calculated to " + $attack.getAttackBonus());
 end
 
 rule "Determine dexterity attack bonus"
@@ -23,7 +23,7 @@ no-loop true
         Action($attacks: attacks) from $actions
         $attack: Attack(relevantAbility.name().equalsIgnoreCase("DEXTERITY")) from $attacks
     then
-        System.out.println("Determine dexterity attack bonus fired");
         $attack.setAttackBonus($m.getDexterity().getAbilityModifier() + $m.getProficiencyBonus());
         modify ($m) { setActions($actions) };
+        System.out.println("Dexterity attack bonus calculated to " + $attack.getAttackBonus());
 end
