@@ -3,37 +3,46 @@ package rules
 import com.sbnz.crcalculator.facts.Monster;
 import com.sbnz.crcalculator.facts.ChallengeRating;
 
-rule "Determine challenge rating"
+rule "Determine challenge rating" salience -1
 	    when
-	        $m: Monster(defensiveChallengeRating != null, offensiveChallengeRating != null) @Watch(offensiveChallengeRating)
-			getChallengeRating($cr, ($m.getOffensiveChallengeRating().getOrdinal() + $m.getDefensiveChallengeRating().getOrdinal())/2, $m.getChallengeRating();)
+	        $m: Monster() @Watch(actions)
+	        finalChallengeRating($cr;)
 	    then
 	    	System.out.println("Challenge rating calculated to " + $cr.getValue());
 	        modify ($m) { setChallengeRating($cr) };
+end
+
+query finalChallengeRating(ChallengeRating $cr)
+	$m: Monster()
+	offensiveChallengeRating($off;)
+	defensiveChallengeRating($def;)
+	getChallengeRating($cr, ($off.getOrdinal() + $def.getOrdinal())/2, $m.getChallengeRating();)
 end
 
 query getChallengeRating(ChallengeRating $cr, Integer expectedOrdinal, ChallengeRating currentChallengeRating)
 	$cr := ChallengeRating(ordinal == expectedOrdinal, this != currentChallengeRating)
 end
 
-rule "Determine offensive challenge rating" salience -1
-		when
-			$m: Monster($actions: actions) @Watch(actions)
-			$a: Action($avg: averageDamage) from $actions
-			not Action(averageDamage > $avg) from $actions
-			ChallengeRating(minDamage <= $avg, maxDamage >= $avg, $ab: attackBonus, $o: ordinal)
-			getChallengeRating($cr, $o + ($a.getMostCommonAttackBonus() - $ab)/2, $m.getOffensiveChallengeRating();)
-		then
-			System.out.println("Offensive challenge rating calculated to " + $cr.getValue());
-			modify ($m) {setOffensiveChallengeRating($cr)};
+query maxDamageAction(Action $action)
+	Monster($actions: actions)
+	$action := Action($avg: averageDamage) from $actions
+	not Action(averageDamage > $avg) from $actions
 end
 
-rule "Determine defensive challenge rating"
-		when
-			$m: Monster($hp: averageHitPoints, defensiveChallengeRating == null)
-			ChallengeRating(minHitPoints <= $hp, maxHitPoints >= $hp, $ac: armorClass, $o: ordinal)
-			$cr: ChallengeRating(ordinal == $o + ($m.getArmorClass() - $ac)/2)
-		then
-			System.out.println("Defensive challenge rating calculated to " + $cr.getValue());
-			modify ($m) {setDefensiveChallengeRating($cr)}
+query highestAttackBonus(Action action, Integer $attackBonus)
+	Attack($attackBonus := attackBonus) from action.getAttacks()
+	not (Attack(attackBonus > $attackBonus) from action.getAttacks())
+end
+
+query offensiveChallengeRating(ChallengeRating $cr)
+	maxDamageAction($action;)
+	highestAttackBonus($action, $attackBonus;)
+	ChallengeRating(minDamage <= $action.getAverageDamage(), maxDamage >= $action.getAverageDamage(), $ab: attackBonus, $o: ordinal)
+	getChallengeRating($cr, $o + ($attackBonus - $ab)/2, null;)
+end
+
+query defensiveChallengeRating(ChallengeRating $cr)
+	$m: Monster($hp: averageHitPoints)
+	ChallengeRating(minHitPoints <= $hp, maxHitPoints >= $hp, $ac: armorClass, $o: ordinal)
+	getChallengeRating($cr, $o + ($m.getArmorClass() - $ac)/2, null;)
 end
