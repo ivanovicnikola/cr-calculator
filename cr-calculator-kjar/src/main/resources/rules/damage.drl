@@ -3,13 +3,14 @@ package rules
 import com.sbnz.crcalculator.facts.Monster;
 import com.sbnz.crcalculator.facts.Action;
 import com.sbnz.crcalculator.facts.Attack;
+import com.sbnz.crcalculator.facts.AbilityName;
 
 rule "Determine strength damage bonus"
 
     when
         $m: Monster($actions: actions, strength.abilityModifier != null)
         Action($attacks: attacks) from $actions
-        $attack: Attack(relevantAbility.name().equalsIgnoreCase("STRENGTH"), damageBonus == null) from $attacks
+        $attack: Attack(relevantAbility == AbilityName.STRENGTH, damageBonus == null) from $attacks
     then
         System.out.println("Determine strength damage bonus fired");
         $attack.setDamageBonus($m.getStrength().getAbilityModifier());
@@ -22,7 +23,7 @@ rule "Determine dexterity damage bonus"
     when
         $m: Monster($actions: actions, dexterity.abilityModifier != null)
         Action($attacks: attacks) from $actions
-        $attack: Attack(relevantAbility.name().equalsIgnoreCase("DEXTERITY"), damageBonus == null) from $attacks
+        $attack: Attack(relevantAbility == AbilityName.DEXTERITY, damageBonus == null) from $attacks
     then
         System.out.println("Determine dexterity damage bonus fired");
         $attack.setDamageBonus($m.getDexterity().getAbilityModifier());
