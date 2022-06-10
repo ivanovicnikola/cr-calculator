@@ -34,15 +34,24 @@ query highestAttackBonus(Action action, Integer $attackBonus)
 	not (Attack(attackBonus > $attackBonus) from action.getAttacks())
 end
 
-query offensiveChallengeRating(ChallengeRating $cr)
+query baseOffensiveChallengeRating(ChallengeRating $cr, Action $action)
 	maxDamageAction($action;)
+	$cr := ChallengeRating(minDamage <= $action.getAverageDamage(), maxDamage >= $action.getAverageDamage())
+end
+
+query adjustedForAttackRoll(ChallengeRating $cr)
+	baseOffensiveChallengeRating($base, $action;)
 	highestAttackBonus($action, $attackBonus;)
-	ChallengeRating(minDamage <= $action.getAverageDamage(), maxDamage >= $action.getAverageDamage(), $ab: attackBonus, $o: ordinal)
-	getChallengeRating($cr, $o + ($attackBonus - $ab)/2, null;)
+	getChallengeRating($cr, $base.getOrdinal() + ($attackBonus - $base.getAttackBonus())/2, null;)
+end
+
+query offensiveChallengeRating(ChallengeRating $cr)
+	$cr := ChallengeRating(ordinal == 100) or //TODO: Implement adjustedForSaveDc($cr;)
+	adjustedForAttackRoll($cr;)
 end
 
 query defensiveChallengeRating(ChallengeRating $cr)
-	$m: Monster($hp: averageHitPoints)
-	ChallengeRating(minHitPoints <= $hp, maxHitPoints >= $hp, $ac: armorClass, $o: ordinal)
+	$m: Monster($hp: averageHitPoints) and
+	ChallengeRating(minHitPoints <= $hp, maxHitPoints >= $hp, $ac: armorClass, $o: ordinal) and
 	getChallengeRating($cr, $o + ($m.getArmorClass() - $ac)/2, null;)
 end
