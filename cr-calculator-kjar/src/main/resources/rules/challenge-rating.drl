@@ -46,11 +46,12 @@ query baseOffensiveChallengeRating(ChallengeRating $cr, Action $action)
 end
 
 query isAttackRollDominant(Action action)
-	Number(intValue >= action.getAttacks().size()/2) from accumulate (
-		$a: Attack(
-			type == AttackType.ATTACK_ROLL
+	Number(intValue >= action.getAttackCount()/2) from accumulate (
+		Attack(
+			type == AttackType.ATTACK_ROLL,
+			$n: numberPerRound
 		) from action.getAttacks(),
-		count($a)
+		sum($n)
 	)
 end
 

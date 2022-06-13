@@ -1,11 +1,7 @@
 package com.sbnz.crcalculator.facts;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 public class Action {
 	private List<Attack> attacks = new ArrayList<>();
@@ -27,5 +23,9 @@ public class Action {
 
 	public Integer getAverageDamage() {
 		return attacks.stream().mapToInt(attack -> attack.getAverageDamage()).sum();
+	}
+	
+	public Integer getAttackCount() {
+		return attacks.stream().mapToInt(attack -> attack.getNumberPerRound()).sum();
 	}
 }
