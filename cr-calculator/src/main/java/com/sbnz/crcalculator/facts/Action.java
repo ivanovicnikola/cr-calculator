@@ -25,7 +25,4 @@ public class Action {
 		return attacks.stream().mapToInt(attack -> attack.getAverageDamage()).sum();
 	}
 	
-	public Integer getAttackCount() {
-		return attacks.stream().mapToInt(attack -> attack.getNumberPerRound()).sum();
-	}
 }
