@@ -10,7 +10,7 @@ no-loop true
     when
         $m: Monster($actions: actions, strength.abilityModifier != null) @Watch(!actions, challengeRating)
         Action($attacks: attacks) from $actions
-        $attack: Attack(relevantAbility == AbilityName.STRENGTH) from $attacks
+        $attack: Attack(relevantAbility == AbilityName.STRENGTH, type == AttackType.ATTACK_ROLL) from $attacks
     then
         $attack.setAttackBonus($m.getStrength().getAbilityModifier() + $m.getProficiencyBonus());
         modify ($m) { setActions($actions) };
@@ -22,7 +22,7 @@ no-loop true
     when
         $m: Monster($actions: actions, dexterity.abilityModifier != null) @Watch(!actions, challengeRating)
         Action($attacks: attacks) from $actions
-        $attack: Attack(relevantAbility == AbilityName.DEXTERITY) from $attacks
+        $attack: Attack(relevantAbility == AbilityName.DEXTERITY, type == AttackType.ATTACK_ROLL) from $attacks
     then
         $attack.setAttackBonus($m.getDexterity().getAbilityModifier() + $m.getProficiencyBonus());
         modify ($m) { setActions($actions) };

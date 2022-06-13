@@ -104,6 +104,7 @@ var app = new Vue({
 		},
 		addAttack: function(actionIndex) {
 			this.monsterInput.actions[actionIndex].attacks.push({
+				type: 'ATTACK_ROLL',
 				numberPerRound: null,
 				relevantAbility: null,
 				baseDamage: {
@@ -115,6 +116,7 @@ var app = new Vue({
 				}
 			});
 			this.monsterResult.actions[actionIndex].attacks.push({
+				type: 'ATTACK_ROLL',
 				numberPerRound: null,
 				relevantAbility: null,
 				baseDamage: {

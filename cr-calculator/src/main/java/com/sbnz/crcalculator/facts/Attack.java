@@ -1,6 +1,7 @@
 package com.sbnz.crcalculator.facts;
 
 public class Attack {
+	private AttackType type;
 	private Integer numberPerRound;
 	private Integer attackBonus;
 	private DamageUnit baseDamage;
@@ -9,9 +10,10 @@ public class Attack {
 	
 	public Attack() { }
 
-	public Attack(Integer numberPerRound, Integer attackBonus, DamageUnit baseDamage, Integer damageBonus,
-			AbilityName relevantAbility) {
+	public Attack(AttackType type, Integer numberPerRound, Integer attackBonus, DamageUnit baseDamage,
+			Integer damageBonus, AbilityName relevantAbility) {
 		super();
+		this.type = type;
 		this.numberPerRound = numberPerRound;
 		this.attackBonus = attackBonus;
 		this.baseDamage = baseDamage;
@@ -57,6 +59,14 @@ public class Attack {
 
 	public void setRelevantAbility(AbilityName relevantAbility) {
 		this.relevantAbility = relevantAbility;
+	}
+
+	public AttackType getType() {
+		return type;
+	}
+
+	public void setType(AttackType type) {
+		this.type = type;
 	}
 
 	public Integer getAverageDamage() {
