@@ -46,7 +46,7 @@ query baseOffensiveChallengeRating(ChallengeRating $cr, Action $action)
 end
 
 query isAttackRollDominant(Action action)
-	Number(intValue >= action.getAttackCount()/2) from accumulate (
+	Number(intValue >= (action.getAttackCount() + 1)/2) from accumulate (
 		Attack(
 			type == AttackType.ATTACK_ROLL,
 			$n: numberPerRound
@@ -64,6 +64,7 @@ end
 
 query adjustedForSavingThrow(ChallengeRating $cr)
 	baseOffensiveChallengeRating($base, $action;)
+	not isAttackRollDominant($action;)
 	greatestSaveDc($action, $saveDc;)
 	getChallengeRating($cr, $base.getOrdinal() + ($saveDc - $base.getSaveDc())/2, null;)
 end
