@@ -28,14 +28,4 @@ public class Action {
 	public Integer getAverageDamage() {
 		return attacks.stream().mapToInt(attack -> attack.getAverageDamage()).sum();
 	}
-	
-	public Integer getMostCommonAttackBonus() {
-		return attacks
-        .stream()
-        .collect(Collectors.groupingBy(Attack::getAttackBonus, Collectors.counting()))
-        .entrySet()
-        .stream()
-        .max(Comparator.comparing(Entry::getValue))
-        .map(Map.Entry::getKey).orElse(null);
-	}
 }

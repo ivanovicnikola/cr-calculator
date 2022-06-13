@@ -1,0 +1,25 @@
+package rules
+
+rule "Determine strength save dc"
+no-loop true
+    when
+        $m: Monster($actions: actions, strength.abilityModifier != null) @Watch(!actions, challengeRating)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility == AbilityName.STRENGTH, type == AttackType.SAVING_THROW) from $attacks
+    then
+        $attack.setSaveDc(8 + $m.getStrength().getAbilityModifier() + $m.getProficiencyBonus());
+        modify ($m) { setActions($actions) };
+        System.out.println("Strength save dc calculated to " + $attack.getSaveDc());
+end
+
+rule "Determine dexterity save dc"
+no-loop true
+    when
+        $m: Monster($actions: actions, dexterity.abilityModifier != null) @Watch(!actions, challengeRating)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility == AbilityName.DEXTERITY, type == AttackType.SAVING_THROW) from $attacks
+    then
+        $attack.setSaveDc(8 + $m.getDexterity().getAbilityModifier() + $m.getProficiencyBonus());
+        modify ($m) { setActions($actions) };
+        System.out.println("Dexterity save dc calculated to " + $attack.getSaveDc());
+end

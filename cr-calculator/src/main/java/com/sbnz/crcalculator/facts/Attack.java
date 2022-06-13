@@ -4,18 +4,20 @@ public class Attack {
 	private AttackType type;
 	private Integer numberPerRound;
 	private Integer attackBonus;
+	private Integer saveDc;
 	private DamageUnit baseDamage;
 	private Integer damageBonus;
 	private AbilityName relevantAbility;
 	
 	public Attack() { }
 
-	public Attack(AttackType type, Integer numberPerRound, Integer attackBonus, DamageUnit baseDamage,
+	public Attack(AttackType type, Integer numberPerRound, Integer attackBonus, Integer saveDc, DamageUnit baseDamage,
 			Integer damageBonus, AbilityName relevantAbility) {
 		super();
 		this.type = type;
 		this.numberPerRound = numberPerRound;
 		this.attackBonus = attackBonus;
+		this.saveDc = saveDc;
 		this.baseDamage = baseDamage;
 		this.damageBonus = damageBonus;
 		this.relevantAbility = relevantAbility;
@@ -69,6 +71,14 @@ public class Attack {
 		this.type = type;
 	}
 
+	public Integer getSaveDc() {
+		return saveDc;
+	}
+
+	public void setSaveDc(Integer saveDc) {
+		this.saveDc = saveDc;
+	}
+
 	public Integer getAverageDamage() {
 		return (baseDamage.getAverageValue() + damageBonus) * numberPerRound;
 	}
@@ -78,6 +88,9 @@ public class Attack {
 	}
 	
 	public String getAttackString() {
-		return numberPerRound + ((numberPerRound == 1)?" attack":" attacks") + ": " + bonusString(attackBonus) + " to hit. Hit: " + (baseDamage.getAverageValue() + damageBonus) + " (" + baseDamage.getNumberOfDice() + baseDamage.getDie().getName() + bonusString(damageBonus) + ") damage.";
+		if(type == AttackType.ATTACK_ROLL)
+			return numberPerRound + ((numberPerRound == 1)?" attack":" attacks") + ": " + bonusString(attackBonus) + " to hit. Hit: " + (baseDamage.getAverageValue() + damageBonus) + " (" + baseDamage.getNumberOfDice() + baseDamage.getDie().getName() + bonusString(damageBonus) + ") damage.";
+		else
+			return numberPerRound + ((numberPerRound == 1)?" attack":" attacks") + ": " + "The target must succeed on a DC " + saveDc + " saving throw or take " + (baseDamage.getAverageValue() + damageBonus) + " (" + baseDamage.getNumberOfDice() + baseDamage.getDie().getName() + ") damage.";
 	}
 }

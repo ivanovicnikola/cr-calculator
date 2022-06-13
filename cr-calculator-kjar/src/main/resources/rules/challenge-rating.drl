@@ -30,9 +30,14 @@ query maxDamageAction(Action $action)
 	not Action(averageDamage > $avg) from $actions
 end
 
-query highestAttackBonus(Action action, Integer $attackBonus)
+query greatestAttackBonus(Action action, Integer $attackBonus)
 	Attack($attackBonus := attackBonus, type == AttackType.ATTACK_ROLL) from action.getAttacks()
 	not (Attack(attackBonus > $attackBonus, type == AttackType.ATTACK_ROLL) from action.getAttacks())
+end
+
+query greatestSaveDc(Action action, Integer $saveDc)
+	Attack($saveDc := saveDc, type == AttackType.SAVING_THROW) from action.getAttacks()
+	not (Attack(saveDc > $saveDc, type == AttackType.SAVING_THROW) from action.getAttacks())
 end
 
 query baseOffensiveChallengeRating(ChallengeRating $cr, Action $action)
@@ -40,15 +45,31 @@ query baseOffensiveChallengeRating(ChallengeRating $cr, Action $action)
 	$cr := ChallengeRating(minDamage <= $action.getAverageDamage(), maxDamage >= $action.getAverageDamage())
 end
 
+query isAttackRollDominant(Action action)
+	Number(intValue >= action.getAttacks().size()/2) from accumulate (
+		$a: Attack(
+			type == AttackType.ATTACK_ROLL
+		) from action.getAttacks(),
+		count($a)
+	)
+end
+
 query adjustedForAttackRoll(ChallengeRating $cr)
 	baseOffensiveChallengeRating($base, $action;)
-	highestAttackBonus($action, $attackBonus;)
+	isAttackRollDominant($action;)
+	greatestAttackBonus($action, $attackBonus;)
 	getChallengeRating($cr, $base.getOrdinal() + ($attackBonus - $base.getAttackBonus())/2, null;)
 end
 
+query adjustedForSavingThrow(ChallengeRating $cr)
+	baseOffensiveChallengeRating($base, $action;)
+	greatestSaveDc($action, $saveDc;)
+	getChallengeRating($cr, $base.getOrdinal() + ($saveDc - $base.getSaveDc())/2, null;)
+end
+
 query offensiveChallengeRating(ChallengeRating $cr)
-	$cr := ChallengeRating(ordinal == 100) or //TODO: Implement adjustedForSaveDc($cr;)
-	adjustedForAttackRoll($cr;)
+	adjustedForAttackRoll($cr;) or
+	adjustedForSavingThrow($cr;)
 end
 
 query defensiveChallengeRating(ChallengeRating $cr)

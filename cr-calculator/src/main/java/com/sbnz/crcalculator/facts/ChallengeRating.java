@@ -11,12 +11,13 @@ public class ChallengeRating {
 	private Integer attackBonus;
 	private Integer minDamage;
 	private Integer maxDamage;
+	private Integer saveDc;
 	
 	public ChallengeRating() { }
 
 	public ChallengeRating(Integer ordinal, String value, Integer experiencePoints, Integer proficiencyBonus,
 			Integer armorClass, Integer minHitPoints, Integer maxHitPoints, Integer attackBonus, Integer minDamage,
-			Integer maxDamage) {
+			Integer maxDamage, Integer saveDc) {
 		super();
 		this.ordinal = ordinal;
 		this.value = value;
@@ -28,6 +29,7 @@ public class ChallengeRating {
 		this.attackBonus = attackBonus;
 		this.minDamage = minDamage;
 		this.maxDamage = maxDamage;
+		this.saveDc = saveDc;
 	}
 
 	public Integer getOrdinal() {
@@ -108,6 +110,14 @@ public class ChallengeRating {
 
 	public void setMaxDamage(Integer maxDamage) {
 		this.maxDamage = maxDamage;
+	}
+
+	public Integer getSaveDc() {
+		return saveDc;
+	}
+
+	public void setSaveDc(Integer saveDc) {
+		this.saveDc = saveDc;
 	}
 	
 }

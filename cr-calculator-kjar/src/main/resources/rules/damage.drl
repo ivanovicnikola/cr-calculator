@@ -31,3 +31,15 @@ rule "Determine dexterity damage bonus"
         modify ($m) { setActions($actions) };
 
 end
+
+rule "Determine saving throw attack damage bonus"
+
+    when
+        $m: Monster($actions: actions)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(damageBonus == null, type == AttackType.SAVING_THROW) from $attacks
+    then
+        System.out.println("Determine saving throw attack damage bonus fired");
+        $attack.setDamageBonus(0);
+        modify ($m) { setActions($actions) };
+end
