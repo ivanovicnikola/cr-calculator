@@ -21,6 +21,8 @@ public class MonsterController {
 	@PostMapping()
 	public ResponseEntity<Monster> submitMonster(@RequestBody Monster monster) {
 		monster = monsterService.getClassifiedMonster(monster);
+		if(!monster.isCalculated())
+			return new ResponseEntity<Monster>(monster, HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<Monster>(monster, HttpStatus.OK);
 	}
 }

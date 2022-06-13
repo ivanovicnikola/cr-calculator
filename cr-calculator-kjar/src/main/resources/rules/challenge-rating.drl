@@ -10,7 +10,7 @@ rule "Determine challenge rating" salience -1
 	        finalChallengeRating($cr;)
 	    then
 	    	System.out.println("Challenge rating calculated to " + $cr.getValue());
-	        modify ($m) { setChallengeRating($cr) };
+	        modify ($m) { setChallengeRating($cr), setCalculated(true) };
 end
 
 query finalChallengeRating(ChallengeRating $cr)

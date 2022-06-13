@@ -51,18 +51,43 @@ class CrCalculatorApplicationTests {
 		for(Die die: dieService.findAll()) {
 			templateSession.insert(die);
 		}
-		templateSession.fireAllRules();
+		int fired = templateSession.fireAllRules();
 		templateSession.dispose();
 		
 		kieSession.insert(monster);
 		for(ChallengeRating challengeRating: challengeRatingService.findAll()) {
 			kieSession.insert(challengeRating);
 		}
-		int fired = kieSession.fireAllRules();
+		fired += kieSession.fireAllRules();
+		kieSession.dispose();
+		
+		assertEquals(fired, 14);
+		assertEquals(monster.getChallengeRating().getValue(), "4");
+		assertEquals(monster.isCalculated(), true);
+	}
+	
+	@Test
+	public void failedCalculationTest() {
+		Monster monster = getMonster();
+		monster.setActions(null);
+		KieSession templateSession = KieSessionUtils.createTemplateSession();
+		KieSession kieSession = kieContainer.newKieSession();
+		templateSession.insert(monster);
+		for(Die die: dieService.findAll()) {
+			templateSession.insert(die);
+		}
+		int fired = templateSession.fireAllRules();
+		templateSession.dispose();
+		
+		kieSession.insert(monster);
+		for(ChallengeRating challengeRating: challengeRatingService.findAll()) {
+			kieSession.insert(challengeRating);
+		}
+		fired += kieSession.fireAllRules();
 		kieSession.dispose();
 		
 		assertEquals(fired, 7);
-		assertEquals(monster.getChallengeRating().getValue(), "4");
+		assertEquals(monster.isCalculated(), false);
 	}
 	
 	@Test
@@ -75,18 +100,19 @@ class CrCalculatorApplicationTests {
 		for(Die die: dieService.findAll()) {
 			templateSession.insert(die);
 		}
-		templateSession.fireAllRules();
+		int fired = templateSession.fireAllRules();
 		templateSession.dispose();
 		
 		kieSession.insert(monster);
 		for(ChallengeRating challengeRating: challengeRatingService.findAll()) {
 			kieSession.insert(challengeRating);
 		}
-		int fired = kieSession.fireAllRules();
+		fired += kieSession.fireAllRules();
 		kieSession.dispose();
 		
-		assertEquals(fired, 10);
+		assertEquals(fired, 17);
 		assertEquals(monster.getChallengeRating().getValue(), "4");
+		assertEquals(monster.isCalculated(), true);
 	}
 	
 	@Test
@@ -117,18 +143,19 @@ class CrCalculatorApplicationTests {
 		for(Die die: dieService.findAll()) {
 			templateSession.insert(die);
 		}
-		templateSession.fireAllRules();
+		int fired = templateSession.fireAllRules();
 		templateSession.dispose();
 		
 		kieSession.insert(monster);
 		for(ChallengeRating challengeRating: challengeRatingService.findAll()) {
 			kieSession.insert(challengeRating);
 		}
-		int fired = kieSession.fireAllRules();
+		fired += kieSession.fireAllRules();
 		kieSession.dispose();
 		
-		assertEquals(fired, 10);
+		assertEquals(fired, 17);
 		assertEquals(monster.getChallengeRating().getValue(), "4");
+		assertEquals(monster.isCalculated(), true);
 	}
 	
 	@Test
@@ -159,18 +186,19 @@ class CrCalculatorApplicationTests {
 		for(Die die: dieService.findAll()) {
 			templateSession.insert(die);
 		}
-		templateSession.fireAllRules();
+		int fired = templateSession.fireAllRules();
 		templateSession.dispose();
 		
 		kieSession.insert(monster);
 		for(ChallengeRating challengeRating: challengeRatingService.findAll()) {
 			kieSession.insert(challengeRating);
 		}
-		int fired = kieSession.fireAllRules();
+		fired += kieSession.fireAllRules();
 		kieSession.dispose();
 		
-		assertEquals(fired, 10);
+		assertEquals(fired, 17);
 		assertEquals(monster.getChallengeRating().getValue(), "4");
+		assertEquals(monster.isCalculated(), true);
 	}
 	
 	private Monster getMonster() {

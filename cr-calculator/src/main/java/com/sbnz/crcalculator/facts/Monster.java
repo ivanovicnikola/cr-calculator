@@ -19,12 +19,13 @@ public class Monster {
 	private Integer numberOfHitDice;
 	private Die hitDie;
 	private List<Action> actions = new ArrayList<>();
+	private boolean calculated;
 	
 	public Monster() { }
 
 	public Monster(MonsterSize size, Ability strength, Ability dexterity, Ability constitution, Ability intelligence,
-			Ability wisdom, Ability charisma, ChallengeRating challengeRating, Integer armorClass, Integer numberOfHitDice, Die hitDie,
-			List<Action> actions) {
+			Ability wisdom, Ability charisma, ChallengeRating challengeRating, Integer armorClass,
+			Integer numberOfHitDice, Die hitDie, List<Action> actions, boolean calculated) {
 		super();
 		this.size = size;
 		this.strength = strength;
@@ -38,6 +39,15 @@ public class Monster {
 		this.numberOfHitDice = numberOfHitDice;
 		this.hitDie = hitDie;
 		this.actions = actions;
+		this.calculated = calculated;
+	}
+
+	public boolean isCalculated() {
+		return calculated;
+	}
+
+	public void setCalculated(boolean calculated) {
+		this.calculated = calculated;
 	}
 
 	public MonsterSize getSize() {
