@@ -23,3 +23,39 @@ no-loop true
         modify ($m) { setActions($actions) };
         System.out.println("Dexterity save dc calculated to " + $attack.getSaveDc());
 end
+
+rule "Determine intelligence save dc"
+no-loop true
+    when
+        $m: Monster($actions: actions, intelligence.abilityModifier != null) @Watch(!actions, challengeRating)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility == AbilityName.INTELLIGENCE, type == AttackType.SAVING_THROW) from $attacks
+    then
+        $attack.setSaveDc(8 + $m.getIntelligence().getAbilityModifier() + $m.getProficiencyBonus());
+        modify ($m) { setActions($actions) };
+        System.out.println("Intelligence save dc calculated to " + $attack.getSaveDc());
+end
+
+rule "Determine wisdom save dc"
+no-loop true
+    when
+        $m: Monster($actions: actions, wisdom.abilityModifier != null) @Watch(!actions, challengeRating)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility == AbilityName.WISDOM, type == AttackType.SAVING_THROW) from $attacks
+    then
+        $attack.setSaveDc(8 + $m.getWisdom().getAbilityModifier() + $m.getProficiencyBonus());
+        modify ($m) { setActions($actions) };
+        System.out.println("Wisdom save dc calculated to " + $attack.getSaveDc());
+end
+
+rule "Determine charisma save dc"
+no-loop true
+    when
+        $m: Monster($actions: actions, charisma.abilityModifier != null) @Watch(!actions, challengeRating)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility == AbilityName.CHARISMA, type == AttackType.SAVING_THROW) from $attacks
+    then
+        $attack.setSaveDc(8 + $m.getCharisma().getAbilityModifier() + $m.getProficiencyBonus());
+        modify ($m) { setActions($actions) };
+        System.out.println("Charisma save dc calculated to " + $attack.getSaveDc());
+end

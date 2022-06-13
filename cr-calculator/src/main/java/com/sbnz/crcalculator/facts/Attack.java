@@ -89,8 +89,8 @@ public class Attack {
 	
 	public String getAttackString() {
 		if(type == AttackType.ATTACK_ROLL)
-			return numberPerRound + ((numberPerRound == 1)?" attack":" attacks") + ": " + bonusString(attackBonus) + " to hit. Hit: " + (baseDamage.getAverageValue() + damageBonus) + " (" + baseDamage.getNumberOfDice() + baseDamage.getDie().getName() + bonusString(damageBonus) + ") damage.";
+			return numberPerRound + ((numberPerRound == 1)?" attack":" attacks") + ": " + bonusString(attackBonus) + " to hit. Hit: " + (baseDamage.getAverageValue() + damageBonus) + " (" + baseDamage.getNumberOfDice() + baseDamage.getDie().getName() + ((damageBonus != 0)?bonusString(damageBonus):"") + ") damage.";
 		else
-			return numberPerRound + ((numberPerRound == 1)?" attack":" attacks") + ": " + "The target must succeed on a DC " + saveDc + " saving throw or take " + (baseDamage.getAverageValue() + damageBonus) + " (" + baseDamage.getNumberOfDice() + baseDamage.getDie().getName() + ") damage.";
+			return numberPerRound + ((numberPerRound == 1)?" attack":" attacks") + ": " + "The target must succeed on a DC " + saveDc + " saving throw or take " + (baseDamage.getAverageValue() + damageBonus) + " (" + baseDamage.getNumberOfDice() + baseDamage.getDie().getName() + ((damageBonus != 0)?bonusString(damageBonus):"") + ") damage.";
 	}
 }

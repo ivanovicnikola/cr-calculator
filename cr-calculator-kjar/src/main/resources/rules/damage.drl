@@ -11,7 +11,7 @@ rule "Determine strength damage bonus"
     when
         $m: Monster($actions: actions, strength.abilityModifier != null)
         Action($attacks: attacks) from $actions
-        $attack: Attack(relevantAbility == AbilityName.STRENGTH, damageBonus == null, type == AttackType.ATTACK_ROLL) from $attacks
+        $attack: Attack(relevantAbility == AbilityName.STRENGTH, damageBonus == null) from $attacks
     then
         System.out.println("Determine strength damage bonus fired");
         $attack.setDamageBonus($m.getStrength().getAbilityModifier());
@@ -24,7 +24,7 @@ rule "Determine dexterity damage bonus"
     when
         $m: Monster($actions: actions, dexterity.abilityModifier != null)
         Action($attacks: attacks) from $actions
-        $attack: Attack(relevantAbility == AbilityName.DEXTERITY, damageBonus == null, type == AttackType.ATTACK_ROLL) from $attacks
+        $attack: Attack(relevantAbility == AbilityName.DEXTERITY, damageBonus == null) from $attacks
     then
         System.out.println("Determine dexterity damage bonus fired");
         $attack.setDamageBonus($m.getDexterity().getAbilityModifier());
@@ -32,14 +32,41 @@ rule "Determine dexterity damage bonus"
 
 end
 
-rule "Determine saving throw attack damage bonus"
+rule "Determine intelligence damage bonus"
 
     when
-        $m: Monster($actions: actions)
+        $m: Monster($actions: actions, intelligence.abilityModifier != null)
         Action($attacks: attacks) from $actions
-        $attack: Attack(damageBonus == null, type == AttackType.SAVING_THROW) from $attacks
+        $attack: Attack(relevantAbility == AbilityName.INTELLIGENCE, damageBonus == null) from $attacks
     then
-        System.out.println("Determine saving throw attack damage bonus fired");
+        System.out.println("Determine intelligence damage bonus fired");
         $attack.setDamageBonus(0);
         modify ($m) { setActions($actions) };
+
+end
+
+rule "Determine wisdom damage bonus"
+
+    when
+        $m: Monster($actions: actions, wisdom.abilityModifier != null)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility == AbilityName.WISDOM, damageBonus == null) from $attacks
+    then
+        System.out.println("Determine wisdom damage bonus fired");
+        $attack.setDamageBonus(0);
+        modify ($m) { setActions($actions) };
+
+end
+
+rule "Determine charisma damage bonus"
+
+    when
+        $m: Monster($actions: actions, charisma.abilityModifier != null)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility == AbilityName.CHARISMA, damageBonus == null) from $attacks
+    then
+        System.out.println("Determine charisma damage bonus fired");
+        $attack.setDamageBonus(0);
+        modify ($m) { setActions($actions) };
+
 end

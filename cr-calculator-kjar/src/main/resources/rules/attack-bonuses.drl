@@ -28,3 +28,39 @@ no-loop true
         modify ($m) { setActions($actions) };
         System.out.println("Dexterity attack bonus calculated to " + $attack.getAttackBonus());
 end
+
+rule "Determine intelligence attack bonus"
+no-loop true
+    when
+        $m: Monster($actions: actions, intelligence.abilityModifier != null) @Watch(!actions, challengeRating)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility == AbilityName.INTELLIGENCE, type == AttackType.ATTACK_ROLL) from $attacks
+    then
+        $attack.setAttackBonus($m.getIntelligence().getAbilityModifier() + $m.getProficiencyBonus());
+        modify ($m) { setActions($actions) };
+        System.out.println("Intelligence attack bonus calculated to " + $attack.getAttackBonus());
+end
+
+rule "Determine wisdom attack bonus"
+no-loop true
+    when
+        $m: Monster($actions: actions, wisdom.abilityModifier != null) @Watch(!actions, challengeRating)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility == AbilityName.WISDOM, type == AttackType.ATTACK_ROLL) from $attacks
+    then
+        $attack.setAttackBonus($m.getWisdom().getAbilityModifier() + $m.getProficiencyBonus());
+        modify ($m) { setActions($actions) };
+        System.out.println("Wisdom attack bonus calculated to " + $attack.getAttackBonus());
+end
+
+rule "Determine charisma attack bonus"
+no-loop true
+    when
+        $m: Monster($actions: actions, charisma.abilityModifier != null) @Watch(!actions, challengeRating)
+        Action($attacks: attacks) from $actions
+        $attack: Attack(relevantAbility == AbilityName.CHARISMA, type == AttackType.ATTACK_ROLL) from $attacks
+    then
+        $attack.setAttackBonus($m.getCharisma().getAbilityModifier() + $m.getProficiencyBonus());
+        modify ($m) { setActions($actions) };
+        System.out.println("Charisma attack bonus calculated to " + $attack.getAttackBonus());
+end
