@@ -50,13 +50,13 @@ query isAttackRollDominant(Action action)
 		$savingThrow: Attack(
 			type == AttackType.SAVING_THROW
 		) from action.getAttacks(),
-		sum($savingThrow.getNumberPerRound())
+		sum($savingThrow.getAverageDamage())
 	)
 	Number(intValue >= $sum) from accumulate (
 		$attackRoll: Attack(
 			type == AttackType.ATTACK_ROLL
 		) from action.getAttacks(),
-		sum($attackRoll.getNumberPerRound())
+		sum($attackRoll.getAverageDamage())
 	)
 end
 
