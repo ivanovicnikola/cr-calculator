@@ -30,14 +30,50 @@ query maxDamageAction(Action $action)
 	not Action(averageDamage > $avg) from $actions
 end
 
-query greatestAttackBonus(Action action, Integer $attackBonus)
+query dominantAttackBonus(Action action, Integer $attackBonus)
 	Attack($attackBonus := attackBonus, type == AttackType.ATTACK_ROLL) from action.getAttacks()
-	not (Attack(attackBonus > $attackBonus, type == AttackType.ATTACK_ROLL) from action.getAttacks())
+	Number($sum: intValue) from accumulate(
+		Attack(
+			attackBonus == $attackBonus,
+			type == AttackType.ATTACK_ROLL,
+			$averageDamage: averageDamage
+		) from action.getAttacks(),
+		sum($averageDamage)
+	)
+	not (
+		Attack($ab: attackBonus, type == AttackType.ATTACK_ROLL) from action.getAttacks() and
+		Number(intValue > $sum) from accumulate(
+			Attack(
+				attackBonus == $ab,
+				type == AttackType.ATTACK_ROLL,
+				$avg: averageDamage
+			) from action.getAttacks(),
+			sum($avg)
+		)
+	)
 end
 
-query greatestSaveDc(Action action, Integer $saveDc)
+query dominantSaveDc(Action action, Integer $saveDc)
 	Attack($saveDc := saveDc, type == AttackType.SAVING_THROW) from action.getAttacks()
-	not (Attack(saveDc > $saveDc, type == AttackType.SAVING_THROW) from action.getAttacks())
+	Number($sum: intValue) from accumulate(
+		Attack(
+			saveDc == $saveDc,
+			type == AttackType.SAVING_THROW,
+			$averageDamage: averageDamage
+		) from action.getAttacks(),
+		sum($averageDamage)
+	)
+	not (
+		Attack($dc: saveDc, type == AttackType.SAVING_THROW) from action.getAttacks() and
+		Number(intValue > $sum) from accumulate(
+			Attack(
+				saveDc == $dc,
+				type == AttackType.SAVING_THROW,
+				$avg: averageDamage
+			) from action.getAttacks(),
+			sum($avg)
+		)
+	)
 end
 
 query baseOffensiveChallengeRating(ChallengeRating $cr, Action $action)
@@ -63,14 +99,14 @@ end
 query adjustedForAttackRoll(ChallengeRating $cr)
 	baseOffensiveChallengeRating($base, $action;)
 	isAttackRollDominant($action;)
-	greatestAttackBonus($action, $attackBonus;)
+	dominantAttackBonus($action, $attackBonus;)
 	getChallengeRating($cr, $base.getOrdinal() + ($attackBonus - $base.getAttackBonus())/2, null;)
 end
 
 query adjustedForSavingThrow(ChallengeRating $cr)
 	baseOffensiveChallengeRating($base, $action;)
 	not isAttackRollDominant($action;)
-	greatestSaveDc($action, $saveDc;)
+	dominantSaveDc($action, $saveDc;)
 	getChallengeRating($cr, $base.getOrdinal() + ($saveDc - $base.getSaveDc())/2, null;)
 end
 
