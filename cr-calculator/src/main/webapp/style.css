@@ -72,6 +72,7 @@
 
 .mon-stat-block__attribute-label, .mon-stat-block__feature-label {
     font-weight: bold;
+    vertical-align: bottom;
 }
 
 .mon-stat-block__stat-block .ability-block {
@@ -172,4 +173,32 @@ b, strong {
   width: 16px;
   height: 16px;
   cursor: pointer;
+}
+
+.red-input
+{
+	background: transparent;
+	outline: 0;
+	border-width: 0 0 1px;
+	border-color: #822000;
+	text-align: center;
+	color: #822000;
+	vertical-align: bottom;
+}
+.red-input:focus {
+  border-color: #dc3545;
+}
+
+option {
+	background-color: rgb(247, 240, 203);
+}
+
+.black-input
+{
+	background: transparent;
+	outline: 0;
+	border-width: 0 0 1px;
+	border-color: black;
+	text-align: center;
+	vertical-align: bottom;
 }

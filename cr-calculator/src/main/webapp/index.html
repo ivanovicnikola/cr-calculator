@@ -22,7 +22,7 @@
 							<div class="mon-stat-block__name">CR Calculator</div>
 							<div class="mon-stat-block__meta">
 								<span>Size</span>
-								<select v-model="monsterInput.size" required>
+								<select class="black-input" v-model="monsterInput.size" required>
 									<option value="TINY">Tiny</option>
 									<option value="SMALL">Small</option>
 									<option value="MEDIUM">Medium</option>
@@ -38,13 +38,13 @@
 								<div class="mon-stat-block__attribute">
 									<span class="mon-stat-block__attribute-label">Armor Class</span>
 									<span class="mon-stat-block__attribute-value">
-										<input type="number" min="1" max="25" v-model.number="monsterInput.armorClass" required>
+										<input class="red-input" type="number" min="1" max="25" v-model.number="monsterInput.armorClass" required>
 									</span>
 								</div>
 								<div class="mon-stat-block__attribute">
 									<span class="mon-stat-block__attribute-label">Number of Hit Dice</span>
 									<span class="mon-stat-block__attribute-value">
-										<input type="number" min="1" max="35" v-model.number="monsterInput.numberOfHitDice" required>
+										<input class="red-input" type="number" min="1" max="35" v-model.number="monsterInput.numberOfHitDice" required>
 									</span>
 								</div>
 								<div class="mon-stat-block__attribute" v-if="displayResult">
@@ -61,7 +61,7 @@
 										<div class="ability-block__heading">STR</div>
 										<div class="ability-block__data">
 											<span class="ability-block__score">
-												<input type="number" min="1" max="30" v-model.number="monsterInput.strength.abilityScore" required>
+												<input class="red-input" type="number" min="1" max="30" v-model.number="monsterInput.strength.abilityScore" required>
 											</span>
 											<span v-if="displayResult" class="ability-block__modifier">({{bonusString(monsterResult.strength.abilityModifier)}})</span>
 										</div>
@@ -70,7 +70,7 @@
 										<div class="ability-block__heading">DEX</div>
 										<div class="ability-block__data">
 											<span class="ability-block__score">
-												<input type="number" min="1" max="30" v-model.number="monsterInput.dexterity.abilityScore" required>
+												<input class="red-input" type="number" min="1" max="30" v-model.number="monsterInput.dexterity.abilityScore" required>
 											</span>
 											<span v-if="displayResult" class="ability-block__modifier">({{bonusString(monsterResult.dexterity.abilityModifier)}})</span>
 										</div>
@@ -79,7 +79,7 @@
 										<div class="ability-block__heading">CON</div>
 										<div class="ability-block__data">
 											<span class="ability-block__score">
-												<input type="number" min="1" max="30" v-model.number="monsterInput.constitution.abilityScore" required>
+												<input class="red-input" type="number" min="1" max="30" v-model.number="monsterInput.constitution.abilityScore" required>
 											</span>
 											<span v-if="displayResult" class="ability-block__modifier">({{bonusString(monsterResult.constitution.abilityModifier)}})</span>
 										</div>
@@ -88,7 +88,7 @@
 										<div class="ability-block__heading">INT</div>
 										<div class="ability-block__data">
 											<span class="ability-block__score">
-												<input type="number" min="1" max="30" v-model.number="monsterInput.intelligence.abilityScore" required>
+												<input class="red-input" type="number" min="1" max="30" v-model.number="monsterInput.intelligence.abilityScore" required>
 											</span>
 											<span v-if="displayResult" class="ability-block__modifier">({{bonusString(monsterResult.intelligence.abilityModifier)}})</span>
 										</div>
@@ -97,7 +97,7 @@
 										<div class="ability-block__heading">WIS</div>
 										<div class="ability-block__data">
 											<span class="ability-block__score">
-												<input type="number" min="1" max="30" v-model.number="monsterInput.wisdom.abilityScore" required>
+												<input class="red-input" type="number" min="1" max="30" v-model.number="monsterInput.wisdom.abilityScore" required>
 											</span>
 											<span v-if="displayResult" class="ability-block__modifier">({{bonusString(monsterResult.wisdom.abilityModifier)}})</span>
 										</div>
@@ -106,7 +106,7 @@
 										<div class="ability-block__heading">CHA</div>
 										<div class="ability-block__data">
 											<span class="ability-block__score">
-												<input type="number" min="1" max="30" v-model.number="monsterInput.charisma.abilityScore" required>
+												<input class="red-input" type="number" min="1" max="30" v-model.number="monsterInput.charisma.abilityScore" required>
 											</span>
 											<span v-if="displayResult" class="ability-block__modifier">({{bonusString(monsterResult.charisma.abilityModifier)}})</span>
 										</div>
@@ -120,7 +120,7 @@
 								<div class="mon-stat-block__tidbit">
 									<span class="mon-stat-block__tidbit-label">Challenge (Expected)</span>
 									<span class="mon-stat-block__tidbit-data">
-										<select v-model="monsterInput.challengeRating" required>
+										<select class="red-input" v-model="monsterInput.challengeRating" required>
 											<option v-for="challengeRating in challengeRatings" v-bind:value="challengeRating">{{challengeRating.value}} ({{challengeRating.experiencePoints}} XP)</option>
 										</select>
 									</span>
@@ -157,7 +157,7 @@
 															<em>
 																<strong>Type</strong>
 															</em>
-															<select v-model="attack.type" required>
+															<select class="black-input" v-model="attack.type" required>
 																<option value="ATTACK_ROLL">Attack roll</option>
 																<option value="SAVING_THROW">Saving throw</option>
 															</select>
@@ -166,13 +166,13 @@
 															<em>
 																<strong>Number per Round</strong>
 															</em>
-															<input type="number" min="1" max="5" v-model.number="attack.numberPerRound" required>
+															<input class="black-input" type="number" min="1" max="5" v-model.number="attack.numberPerRound" required>
 														</div>
 														<div class="form-group mb-2">
 															<em>
 																<strong>Ability</strong>
 															</em>
-															<select v-model="attack.relevantAbility" required>
+															<select class="black-input" v-model="attack.relevantAbility" required>
 																<option value="STRENGTH">Strength</option>
 																<option value="DEXTERITY">Dexterity</option>
 																<option value="INTELLIGENCE">Intelligence</option>
@@ -184,8 +184,8 @@
 															<em>
 																<strong>Damage</strong>
 															</em>
-															<input type="number" min="1" max="4" v-model.number="attack.baseDamage.numberOfDice" required>
-															<select v-model="attack.baseDamage.die" required>
+															<input class="black-input" type="number" min="1" max="4" v-model.number="attack.baseDamage.numberOfDice" required>
+															<select class="black-input" v-model="attack.baseDamage.die" required>
 																<option v-for="die in dice" v-bind:value="die">{{die.name}}</option>
 															</select>
 														</div>
