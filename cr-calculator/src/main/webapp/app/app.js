@@ -92,6 +92,10 @@ var app = new Vue({
 					this.monsterResult = response.data;
 					this.displayResult = true;
 					console.log(this.monsterResult);
+					toastr.success('CR calculated to ' + this.monsterResult.challengeRating.value, 'Calculation successful');
+				})
+				.catch(error => {
+					toastr.error('CR could not be calculated', 'Invalid input');
 				});
 		},
 		addAction: function() {
